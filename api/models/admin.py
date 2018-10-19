@@ -35,3 +35,17 @@ class Admin(User):
         }
         product_list.append(response)
         return "Product added successfully"
+
+    @staticmethod
+    def get_all_sales(sales_list):
+        """
+        method to get all sale orders
+        """
+        if len(sales_list) == 0:
+            message = {
+                'message': 'First make a sale'
+                }
+            return message
+        else:
+            return sales_list
+            

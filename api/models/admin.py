@@ -33,6 +33,5 @@ class Admin(User):
             'minimum_quantity': product.minimum_quantity,
             'price': product.price
         }
-
         product_list.append(response)
         return "Product added successfully"

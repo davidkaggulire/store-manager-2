@@ -34,3 +34,7 @@ def post_products():
             return make_response(jsonify({"message": new_post}), 201)
         else:
             return make_response(jsonify({'message': 'Missing input fields'}), 406)
+
+    elif request.method == 'GET':
+        new_get = Admin.get_products(PRODUCT_LIST)
+        return make_response(jsonify(new_get), 200)

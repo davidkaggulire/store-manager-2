@@ -20,9 +20,6 @@ def post_sales():
     """
     if request.method == 'POST':
         form_data = request.get_json(force=True)
-        # we need to find that the product being bought is in the store.
-        # so we need to figure out a way to do that 
-        # can only make a sale when product is in store.
         product_name = form_data['product_name']
         sale_id = len(SALES_LIST) + 1
 

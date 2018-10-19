@@ -33,3 +33,10 @@ def post_sales():
                 return make_response(jsonify({'message': 'Product not in store'}), 404)
         else:
             return make_response(jsonify({'message': 'Product name missing'}), 406)
+    elif request.method == 'GET':
+        get_sales = admin_user.get_all_sales(SALES_LIST)
+        if get_sales:
+            return make_response(jsonify(get_sales), 200)
+        else:
+            message = {'message': 'Unauthorized'}
+            return make_response(jsonify(message), 401)

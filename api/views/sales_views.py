@@ -24,7 +24,7 @@ def post_sales():
         sale_id = len(SALES_LIST) + 1
 
         attendant_id = attendant_user.user_id
-        
+
         if product_name != "":
             save_sale = attendant_user.add_sale(sale_id, PRODUCT_LIST, SALES_LIST,attendant_id, product_name)
             if save_sale:
@@ -40,3 +40,16 @@ def post_sales():
         else:
             message = {'message': 'Unauthorized'}
             return make_response(jsonify(message), 401)
+
+@app.route('/api/v1/sales/<int:sale_id>', methods=['GET'])
+def get_specific_sale(sale_id):
+    """
+    route to get specific sale.
+    """
+    specific_sale = User.get_single_sale(sale_id, admin_user.username, user.user_id, SALES_LIST)
+    return make_response(jsonify(specific_sale), 200)
+    
+@app.route('/api/v1/sales/<int:sale_id>', methods=['POST'])
+def post_specific_sale(sale_id):    
+    if sale_id:
+        return make_response(jsonify({'message': 'Unallowed route'}), 405)

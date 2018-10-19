@@ -46,3 +46,13 @@ class User():
             for product in product_list:
                 if product['product_id'] == product_id:
                     return product
+    
+    @staticmethod
+    def get_single_sale(sale_id, username, user_id, sales_list):
+        """
+        method to get a specific sale
+        """
+        if username == 'admin' or user_id == 'user_id':
+            for sale in sales_list:
+                if sale['sale_id'] == sale_id:
+                    return sale

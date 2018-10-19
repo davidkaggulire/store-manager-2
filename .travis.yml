@@ -10,7 +10,7 @@ install:
   - pip install coverage
 
 script:
-  - pytest tests --cov=api 
+  - python -m pytest tests --cov=api 
 
 after_success:
 - coveralls

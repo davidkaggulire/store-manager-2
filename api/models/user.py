@@ -31,3 +31,18 @@ class User():
             return result
         else:
             return product_list
+
+    @staticmethod
+    def get_specific_product(product_id, product_list):
+        """
+        method returns specific product
+        """
+        if len(product_list) == 0:
+            result = {
+                'message': 'Please add products to store'
+            }
+            return result
+        else:
+            for product in product_list:
+                if product['product_id'] == product_id:
+                    return product

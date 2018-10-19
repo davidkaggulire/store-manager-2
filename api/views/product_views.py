@@ -38,3 +38,18 @@ def post_products():
     elif request.method == 'GET':
         new_get = Admin.get_products(PRODUCT_LIST)
         return make_response(jsonify(new_get), 200)
+
+@app.route('/api/v1/products/<int:product_id>', methods=['GET', 'POST'])     
+def get_product(product_id):
+    """
+    route to get specific product by Id
+    """
+    if request.method == 'GET':
+        specific_product = Attendant.get_specific_product(product_id, PRODUCT_LIST)
+        if specific_product:
+            return make_response(jsonify(specific_product), 200)
+        else:
+            return make_response(jsonify({'message': 'Product not found'}), 404)
+
+    elif request.method == 'POST':
+        return make_response(jsonify({'message': 'Unallowed route'}), 405)

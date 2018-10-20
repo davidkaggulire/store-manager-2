@@ -32,7 +32,7 @@ def post_sales():
             else:
                 return make_response(jsonify({'message': 'Product not in store'}), 404)
         else:
-            return make_response(jsonify({'message': 'Product name missing'}), 406)
+            return make_response(jsonify({'message': 'Product name missing'}), 400)
     elif request.method == 'GET':
         get_sales = admin_user.get_all_sales(SALES_LIST)
         if get_sales:

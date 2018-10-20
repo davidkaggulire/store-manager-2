@@ -95,7 +95,7 @@ class TestingApi(unittest.TestCase):
         """test method to check for empty fields"""
         response = self.client.post('/api/v1/products',data=json.dumps(self.empty_product), 
         content_type='application/json')
-        self.assertEqual(response.status_code, 406)
+        self.assertEqual(response.status_code, 400)
         self.assertIn('Missing input fields', str(response.data))
 
     def test_get_all_products(self):
@@ -128,7 +128,7 @@ class TestingApi(unittest.TestCase):
         content_type="application/json")
         response = self.client.post('/api/v1/sales', json=dict(product_name=''),
         content_type='application/json')
-        self.assertEqual(response.status_code, 406)
+        self.assertEqual(response.status_code, 400)
         self.assertIn('Product name missing', str(response.data))
 
     def test_post_a_sale(self):

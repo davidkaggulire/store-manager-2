@@ -13,6 +13,11 @@ user = User(1, username='attendant')
 admin_user = Admin(1,username='admin')
 attendant_user = Attendant(1, 'attendant')
 
+@app.route('/')
+def home():
+    """Home route"""
+    return "Welcome to Store Manager"
+
 @app.route('/api/v1/products', methods = ['GET', 'POST'])
 def post_products():
     """

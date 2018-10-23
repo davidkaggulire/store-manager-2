@@ -53,7 +53,7 @@ Please clone or download the repo at:
 - The application shows available products, quantity and price.
 
 # UI link
-` [Project UI]:(https://davidkaggulire.github.io/store-manager/UI/templates/index.html)`
+` [Project UI](https://davidkaggulire.github.io/store-manager/UI/templates/index.html)`
 
 # Running Unit Tests
 `python -m pytest tests/test_api.py`

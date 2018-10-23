@@ -6,63 +6,57 @@ Store Manager helps store owners manage sales and product inventory records
 [![Coverage Status](https://coveralls.io/repos/github/davidkaggulire/store-manager-2/badge.svg?branch=feature-challenge-2)](https://coveralls.io/github/davidkaggulire/store-manager-2?branch=feature-challenge-2)
 
 # Getting Started
-Follow the instructions to help you get started.
+The following information will help you setup and run the application on your local machine.
 
-# Requirements for project
- `Flask server side framework
-   -- pip install flask
- `
+# Prerequisites
+You will need the following
 
-`Python version -- python 3.5.2`
+- Internet
+- Git
+- An IDE such as Visual Studio Code
+- Postman
 
-` Postman to test API endpoints`
+# Project links
+**UI link:** - The user interface are hosted on gh-pages on https://davidkaggulire.github.io/store-manager/UI/templates/index.html
 
-`Pytest -- pip install -U pytest`
-
-`Pylint -- pip install pylint`
-
-To install dependencies run the command
-
-`pip install -r requirements.txt`
-
-# Installing virtual machine
-To install the virtual machine run this 
-command
-
-`pip install virtualenv`
-
-
-To create a virtual environment run this command
-
-`python3 -m venv venv`
-
-# Accessing project
-https://github.com/davidkaggulire/store-manager-2/tree/feature-challenge-2
-
-__Installing__
-
-Please clone or download the repo at:
-
-`https://github.com/davidkaggulire/store-manager-2.git`
+**API Endpoints:** The code for api endpoints can be found on https://github.com/davidkaggulire/store-manager-2/tree/feature-challenge-2
 
 # Project Functionality
+
+**User Interface**
 - Store attendant can search and add products to buyer's cart.
 - Store attendant can see his or her sale records but can't modify them.
 - Store owner can see sales and filter attendants.
 - Store owner can add modify and delete products.
 - The application shows available products, quantity and price.
 
-# UI link
- [Project UI](https://davidkaggulire.github.io/store-manager/UI/templates/index.html)
+**API endpoints**
+- Create a product
+- Get all products
+- Fetch a single product record
+- Create a sale order
+- Fetch all sale records
+- Fetch a single sale record
+
+# Installing application on your local machine
+In order to install the application, clone the remote repository to your local machine using the following command in the terminal of your IDE.
+
+`git clone https://github.com/davidkaggulire/store-manager-2.git`
+
+You can now access the project by pointing to the directory in which you have cloned the application using cd.
+When inside the application, you can then create a virtual environment by typing `python3 -m venv venv` where the first venv is to initiate creation fo virtual environment while the second venv is the name you would like to give to your virtual environment.
+You can now activate your virtual environment using `source venv/bin/activate`
+
+# Installing dependencies
+To install dependencies neede, use the following command `pip install -r requirements.txt`
 
 # Running Unit Tests
-`python -m pytest tests/test_api.py`
+You can run unit tests using this command `python -m pytest tests/test_api.py` and to check the **coverage** report using this command `python -m pytest tests --cov=api --cov-report term-missing`
 
-__With Coverage__
+# Deployment
+THe app has been deployed on heroku and can be tested using this link (https://david-store-manager.herokuapp.com/)
 
-`python -m pytest tests --cov=api `
-
-# Endpoints
+# Accessing Endpoints
 
 | Method        | Route           | Function  |
 | ------------- |:-------------------:| -----:|
@@ -73,6 +67,14 @@ __With Coverage__
 | GET   | api/v1/sales   |get all sales        |
 | GET   | api/v1/sales/sale_id   |get sale by id        |
 
+# Built with:
+**User Interface:**
+- HTML5
+- CSS3
+
+**API endpoints:**
+- Python3
+- Flask
 
 # Author:
 David Kaggulire

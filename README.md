@@ -72,3 +72,8 @@ __With Coverage__
 | POST  | api/v1/sales   |post a sale        |
 | GET   | api/v1/sales   |get all sales        |
 | GET   | api/v1/sales/sale_id   |get sale by id        |
+
+
+# Author:
+David Kaggulire
+

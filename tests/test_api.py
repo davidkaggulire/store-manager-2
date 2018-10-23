@@ -75,11 +75,19 @@ class TestingApi(unittest.TestCase):
             }
         ]
 
+    def test_index_route(self):
+        """test method for index route"""
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+
     def test_post_on_url_product(self):
         """test method to post on url"""
         response = self.client.post('/api/v1/products/1', data=json.dumps(self.products[0]), 
         content_type='application/json')
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 400)
+        response = self.client.post('/api/v1/products/', data=json.dumps(self.products[0]), 
+        content_type='application/json')
+        self.assertEqual(response.status_code, 400)
         
     def test_post_products(self):
         """test method to post products"""
@@ -109,15 +117,9 @@ class TestingApi(unittest.TestCase):
         """test method to get a single product"""
         self.client.post('/api/v1/products', data=json.dumps(self.products[0]), 
         content_type='application/json')
-        product = {
-            'id':1
-        }
-        product2 = {
-            'id': 7
-        }
-        response = self.client.get('/api/v1/products/{}'.format(product['id']))
+        response = self.client.get('/api/v1/products/1')
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/api/v1/products/{}'.format(product2['id']))
+        response = self.client.get('/api/v1/products/7')
         self.assertEqual(response.status_code, 404)
 
     def test_post_empty_sale(self):
@@ -165,17 +167,13 @@ class TestingApi(unittest.TestCase):
         content_type="application/json")
         response = self.client.get('/api/v1/sales/1')
         self.assertEqual(response.status_code, 200)
+        self.assertIn('No sale has been made', str(response.data))
 
     def test_post_on_url_sale_unallowed(self):
         """test method to post on url"""
-        self.client.post('/api/v1/products', data=json.dumps(self.products[0]),
-        content_type="application/json")
-        sale = {
-            "id": 2
-        }
-        response = self.client.post('/api/v1/sales/{}'.format(sale['id']), json=dict(product_name='piano'),
+        response = self.client.post('/api/v1/sales/1', json=dict(product_name='piano'),
         content_type='application/json')
-        self.assertEqual(response.status_code, 405)
+        self.assertEqual(response.status_code, 400)
         self.assertIn('Unallowed ', str(response.data))
 
     def tearDown(self):

@@ -62,22 +62,13 @@ __With Coverage__
 
 `python -m pytest tests --cov=api `
 
-#Endpoints
+# Endpoints
 
-| Method   | Route   | Function   |
-
-| ---------|:-------- :| ---------- :|
-
-| POST  | api/v1/products| post products   |
-
-| GET   | api/v1/products| get products   |
-
-| GET   | api/v1/products/product_id   | get product by id   |
-
-| POST   | api/v1/sales   | post a sale   |
-
-| GET   | api/v1/sales   | get all sales   |
-
-| GET   | api/v1/sales/sale_id   | get sale by id   |
- 
-
+| Method        | Route           | Function  |
+| ------------- |:-------------------:| -----:|
+| POST  | api/v1/products   |post products      |
+| GET   | api/v1/products    |get products   |
+| GET   | api/v1/products/product_id  |   get product by id       |
+| POST  | api/v1/sales   |post a sale        |
+| GET   | api/v1/sales   |get all sales        |
+| GET   | api/v1/sales/sale_id   |get sale by id        |

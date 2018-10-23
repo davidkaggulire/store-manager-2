@@ -42,10 +42,7 @@ class Admin(User):
         method to get all sale orders
         """
         if len(sales_list) == 0:
-            message = {
-                'message': 'First make a sale'
-                }
-            return message
+            return {'message': 'No sale has been made'}
         else:
             return sales_list
             

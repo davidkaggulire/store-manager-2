@@ -3,6 +3,8 @@ module user
 class with general user functions
 """
 
+from flask import jsonify, make_response
+
 class User():
     """
     defining class User
@@ -25,10 +27,7 @@ class User():
         returns all products in product_list
         """
         if len(product_list) == 0:
-            result = {
-                'message': 'Please add products to store'
-            }
-            return result
+            return {'message': 'Please add products to store'}
         else:
             return product_list
 
@@ -38,21 +37,25 @@ class User():
         method returns specific product
         """
         if len(product_list) == 0:
-            result = {
-                'message': 'Please add products to store'
-            }
-            return result
+            return {'message': 'Please add products to store'}
         else:
             for product in product_list:
                 if product['product_id'] == product_id:
                     return product
     
     @staticmethod
-    def get_single_sale(sale_id, username, user_id, sales_list):
+    def get_single_sale(sale_id, admin_status, user_id, sales_list):
         """
         method to get a specific sale
         """
-        if username == 'admin' or user_id == 'user_id':
-            for sale in sales_list:
-                if sale['sale_id'] == sale_id:
-                    return sale
+        if len(sales_list) == 0:
+            return {'message': "No sale has been made"}
+        else:
+            if admin_status is True or user_id == 'user_id':
+                for sale in sales_list:
+                    if sale['sale_id'] == sale_id:
+                        return sale
+                else: 
+                   return {'message': 'Sale not found'}
+            else:
+                return {'message': 'You are not authorized'}

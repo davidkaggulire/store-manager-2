@@ -63,3 +63,4 @@ def post_product(product_id):
 @app.route('/api/v1/products/', methods = ['POST'])
 def post_wrong_url_products():
     return make_response(jsonify({'message': 'Unallowed route'}), 400)
+    

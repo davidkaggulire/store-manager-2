@@ -43,6 +43,5 @@ class Admin(User):
         """
         if len(sales_list) == 0:
             return {'message': 'No sale has been made'}
-        else:
-            return sales_list
+        return sales_list
             

@@ -2,15 +2,13 @@
 module attendant
 """
 
-from flask import jsonify, make_response
 from api.models.user import User
-from api.models.products import Products
 
 class Attendant(User):
     """
     defining attendant class
     """
-    def __init__(self, user_id, username = 'attendant', admin_status=False):
+    def __init__(self, user_id, username='attendant', admin_status=False):
         """
         defining class attributes for attendant
         initializing attributes of user_class
@@ -40,7 +38,5 @@ class Attendant(User):
                     'quantity': product['quantity'],
                     'attendant_id': attendant_id
                 }
-                
                 sales_list.append(response)
-                
                 return 'Sale made successfully'

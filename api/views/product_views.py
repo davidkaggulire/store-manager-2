@@ -6,6 +6,7 @@ from api.models.products import Products
 from api.models.user import User
 from api.models.admin import Admin
 from api.models.attendant import Attendant
+from api.models.validate import Validate
 
 PRODUCT_LIST = [
     {
@@ -56,6 +57,7 @@ def post_products():
     quantity = form_data['quantity']
     minimum_quantity = form_data['minimum_quantity']
 
+    
     if product_name != "" and category != "" and price != "" and quantity != "" and minimum_quantity != "":
         product = Products(product_id=product_id, product_name=product_name, category=category,
         price=price, quantity=quantity, minimum_quantity=minimum_quantity)  

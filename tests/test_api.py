@@ -27,14 +27,14 @@ class TestingApi(unittest.TestCase):
                 "category": "keyboards",
                 "price": 1000000,
                 "quantity": 10,
-                "minimum_quantity": 3
+                "minimum_quantity": 3,
             },
             {
-                "product_name": "electric guitar",
+                "product_name": "guitar",
                 "category": "guitars",
                 "price": 50000,
                 "quantity": 10,
-                "minimum_quantity": 2
+                "minimum_quantity": 2,
             }
         ]
 
@@ -58,7 +58,7 @@ class TestingApi(unittest.TestCase):
              {
                 "attendant_id": 1,
                 "category": "guitars",
-                "price": 50000,
+                "price": 500000,
                 "product_id": 2,
                 "product_name": "electric guitar",
                 "quantity": 10,
@@ -69,7 +69,7 @@ class TestingApi(unittest.TestCase):
                 "category": "bags",
                 "price": 30000,
                 "product_id": 1,
-                "product_name": "piano bag",
+                "product_name": "pianobag",
                 "quantity": 10,
                 "sale_id": 1
             }
@@ -93,7 +93,6 @@ class TestingApi(unittest.TestCase):
         """test method to post products"""
         response = self.client.post('/api/v1/products')
         self.assertEqual(response.status_code, 400)
-
         response = self.client.post('/api/v1/products',data=json.dumps(self.products[0]), 
         content_type='application/json')
         self.assertEqual(response.status_code, 201)
@@ -119,8 +118,12 @@ class TestingApi(unittest.TestCase):
         content_type='application/json')
         response = self.client.get('/api/v1/products/1')
         self.assertEqual(response.status_code, 200)
-        response = self.client.get('/api/v1/products/7')
+
+    def test_get_unexistent_product(self):
+        """test method to get a product that doesnot exist"""
+        response = self.client.get('/api/v1/products/10')
         self.assertEqual(response.status_code, 404)
+        self.assertIn('Product not found', str(response.data))
 
     def test_post_empty_sale(self):
         """testing method for an empty sale"""
@@ -137,19 +140,17 @@ class TestingApi(unittest.TestCase):
         """test method to post sales """
         response = self.client.post('/api/v1/sales')
         self.assertEqual(response.status_code, 400)
-
         self.client.post('/api/v1/products', data=json.dumps(self.products[0]),
         content_type="application/json")
         response = self.client.post('/api/v1/sales', json=dict(product_name='piano'),
         content_type='application/json')
         self.assertEqual(response.status_code, 201)
         self.assertIn('Sale made successfully', str(response.data))
-        response = self.client.post('/api/v1/sales', json=dict(product_name='guitar'),
+        response = self.client.post('/api/v1/sales', json=dict(product_name='hello'),
         content_type='application/json')
         self.assertEqual(response.status_code, 404)
         self.assertIn('Product not in store', str(response.data))
         
-
     def test_get_all_sales(self):
         """test method to get all available sales"""
         self.client.post('/api/v1/products', data=json.dumps(self.products[0]),
@@ -163,11 +164,18 @@ class TestingApi(unittest.TestCase):
         """test method to get specific sale"""
         self.client.post('/api/v1/products', data=json.dumps(self.products[0]),
         content_type="application/json")
-        self.client.post('/api/v1/products', data=json.dumps(self.products[1]),
-        content_type="application/json")
+        self.client.post('/api/v1/sales', json=dict(product_name='piano'),
+        content_type='application/json')
         response = self.client.get('/api/v1/sales/1')
         self.assertEqual(response.status_code, 200)
-        self.assertIn('No sale has been made', str(response.data))
+
+    def test_get_unexistent_sale(self):
+        """test method to get a sale that doesnot exist"""
+        self.client.post('/api/v1/products', data=json.dumps(self.products[1]),
+        content_type="application/json")
+        response = self.client.get('/api/v1/sales/4')
+        self.assertIn('Sale not found', str(response.data))
+        self.assertEqual(response.status_code, 404)
 
     def test_post_on_url_sale_unallowed(self):
         """test method to post on url"""

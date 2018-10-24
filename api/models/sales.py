@@ -2,8 +2,6 @@
 module sales
 """
 
-from flask import jsonify, make_response
-
 class Sales():
     """
     class for creating a saleorder

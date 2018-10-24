@@ -9,6 +9,14 @@ from api.models.attendant import Attendant
 
 PRODUCT_LIST = [
     {
+        "product_name": "pianobag",
+        "category": "bags",
+        "price": 30000,
+        "quantity": 10,
+        "minimum_quantity": 6,
+        "product_id": 3
+    },
+    {
         "product_name": "guitar",
         "category": "guitars",
         "price": 500000,

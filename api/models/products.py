@@ -3,7 +3,6 @@ module products
 """
 
 import datetime
-from flask import jsonify, make_response
 
 class Products():
     """

@@ -6,7 +6,6 @@ from api.models.products import Products
 from api.models.user import User
 from api.models.admin import Admin
 from api.models.attendant import Attendant
-from api.models.validate import Validate
 
 PRODUCT_LIST = [
     {

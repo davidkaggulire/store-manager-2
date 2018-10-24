@@ -75,6 +75,15 @@ class TestingApi(unittest.TestCase):
             }
         ]
 
+    def test_get_unexistent_product(self):
+        """test method to get a product that doesnot exist"""
+        self.client.post('/api/v1/products', data=json.dumps(self.products[0]), 
+        content_type='application/json')
+        self.client.get('/api/v1/products/1')
+        response = self.client.get('/api/v1/products/10')
+        self.assertEqual(response.status_code, 404)
+        self.assertIn('Product not found', str(response.data))
+
     def test_index_route(self):
         """test method for index route"""
         response = self.client.get('/')
@@ -118,12 +127,6 @@ class TestingApi(unittest.TestCase):
         content_type='application/json')
         response = self.client.get('/api/v1/products/1')
         self.assertEqual(response.status_code, 200)
-
-    def test_get_unexistent_product(self):
-        """test method to get a product that doesnot exist"""
-        response = self.client.get('/api/v1/products/10')
-        self.assertEqual(response.status_code, 404)
-        self.assertIn('Product not found', str(response.data))
 
     def test_post_empty_sale(self):
         """testing method for an empty sale"""

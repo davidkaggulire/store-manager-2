@@ -173,7 +173,7 @@ class TestingApi(unittest.TestCase):
         """test method to get a sale that doesnot exist"""
         self.client.post('/api/v1/products', data=json.dumps(self.products[1]),
         content_type="application/json")
-        response = self.client.get('/api/v1/sales/4')
+        response = self.client.get('/api/v1/sales/5')
         self.assertIn('Sale not found', str(response.data))
         self.assertEqual(response.status_code, 404)
 

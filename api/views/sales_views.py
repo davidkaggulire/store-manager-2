@@ -10,6 +10,15 @@ from api.views.product_views import PRODUCT_LIST
 SALES_LIST = [
         {
                 "attendant_id": 1,
+                "category": "bags",
+                "price": 30000,
+                "product_id": 3,
+                "product_name": "pianobag",
+                "quantity": 10,
+                "sale_id": 3
+        },
+        {
+                "attendant_id": 1,
                 "category": "guitars",
                 "price": 500000,
                 "product_id": 2,

@@ -28,8 +28,7 @@ class User():
         """
         if len(product_list) == 0:
             return {'message': 'Please add products to store'}
-        else:
-            return product_list
+        return product_list
 
     @staticmethod
     def get_specific_product(product_id, product_list):
@@ -41,21 +40,20 @@ class User():
         else:
             for product in product_list:
                 if product['product_id'] == product_id:
-                    return product
-    
+                    return make_response(jsonify(product), 200)
+            return make_response(jsonify({'message': 'Product not found'}), 404)
+            
     @staticmethod
     def get_single_sale(sale_id, admin_status, user_id, sales_list):
         """
         method to get a specific sale
         """
         if len(sales_list) == 0:
-            return {'message': "No sale has been made"}
+            return make_response(jsonify({'message': "No sale has been made"}), 200)
+        if admin_status is True or user_id == 'user_id':
+            for sale in sales_list:
+                if sale['sale_id'] == sale_id:
+                    return make_response(jsonify(sale), 200)
+            return make_response(jsonify({'message': 'Sale not found'}), 404)
         else:
-            if admin_status is True or user_id == 'user_id':
-                for sale in sales_list:
-                    if sale['sale_id'] == sale_id:
-                        return sale
-                else: 
-                   return {'message': 'Sale not found'}
-            else:
-                return {'message': 'You are not authorized'}
+            return {'message': "You are not authorized"}

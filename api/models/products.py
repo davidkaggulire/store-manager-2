@@ -21,12 +21,6 @@ class Products():
         self.quantity = quantity
         self.minimum_quantity = minimum_quantity
         self.date_added = datetime.datetime.now()
-
-    def __str__(self):
-        """
-        print string rep of class attributes
-        """
-        return '{}'.format(self.product_name)
         
     def validate_product(self):
         """

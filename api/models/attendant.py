@@ -15,12 +15,6 @@ class Attendant(User):
         """
         super().__init__(user_id, username)
 
-    def __str__(self):
-        """
-        returning str repr for class
-        """
-        return '{}'.format(self.username)
-
     @staticmethod
     def add_sale(sale_id, quantity, price, product_list, sales_list, attendant_id, product_name):
         """

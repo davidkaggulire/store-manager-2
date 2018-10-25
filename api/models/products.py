@@ -2,7 +2,9 @@
 module products
 """
 
+import re
 import datetime
+from flask import jsonify
 
 class Products():
     """
@@ -25,3 +27,27 @@ class Products():
         print string rep of class attributes
         """
         return '{}'.format(self.product_name)
+        
+    def validate_product(self):
+        """
+        method to validate product input
+        """
+        if re.search(r'\s', self.product_name):
+            return jsonify({'error': 'product name should not have empty spaces'}), 400
+        if re.search(r'\d', self.product_name):
+            return jsonify({'error': 'product name should not have digits but letters'}), 400
+        if re.search(r'\W', self.product_name):
+            return jsonify({'error': 'product name should not contain alphabet letters only'}), 400
+        if not isinstance(self.price, int):
+            return jsonify({'error': 'price should be a number'}), 400
+        if not isinstance(self.quantity, int):
+            return jsonify({'error': 'quantity should be a number'}), 400
+        if not isinstance(self.minimum_quantity, int):
+            return jsonify({'error': 'minimum quantity should be a number'}), 400
+        if re.search(r'\s', self.category):
+            return jsonify({'error': 'category name should not have empty spaces'}), 400
+        if re.search(r'\d', self.category):
+            return jsonify({'error': 'category name should not have digits but letters'}), 400
+        if re.search(r'\W', self.category):
+            return jsonify({'error': 'product name should not contain alphabet letters only'}), 400
+        return True

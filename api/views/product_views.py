@@ -40,28 +40,32 @@ def post_products():
     """
     method to handle post and get requests
     """
-    product_id = len(PRODUCT_LIST) + 1
-    form_data = request.get_json(force=True)
-    product_name = form_data['product_name']
-    category = form_data['category']
-    price = form_data['price']
-    quantity = form_data['quantity']
-    minimum_quantity = form_data['minimum_quantity']
-
+    try:
+        product_id = len(PRODUCT_LIST) + 1
+        form_data = request.get_json(force=True)
+        product_name = form_data['product_name']
+        category = form_data['category']
+        price = form_data['price']
+        quantity = form_data['quantity']
+        minimum_quantity = form_data['minimum_quantity']
     
-    if product_name != "" and category != "" and price != "" and quantity != "" and minimum_quantity != "":
         product = Products(product_id=product_id, product_name=product_name, category=category,
-        price=price, quantity=quantity, minimum_quantity=minimum_quantity)  
-        new_post = Admin.add_product(product, PRODUCT_LIST)
-        return make_response(jsonify({"message": new_post}), 201)
-    else:
-        return make_response(jsonify({'message': 'Missing input fields'}), 400)
+        price=price, quantity=quantity, minimum_quantity=minimum_quantity)
+        valid_product = product.validate_product()
+
+        if valid_product == True:
+            new_post = Admin.add_product(product, PRODUCT_LIST)
+            return make_response(jsonify({"message": new_post}), 201)
+        return valid_product
+    except KeyError:
+        return make_response(jsonify({'message': 'Missing input field'}), 400)
+    
 
 @app.route('/api/v1/products')
 def get_products():
     """route to return all products"""
     new_get = Admin.get_products(PRODUCT_LIST)
-    return make_response(jsonify(new_get), 200)
+    return new_get
 
 @app.route('/api/v1/products/<int:product_id>')     
 def get_product(product_id):

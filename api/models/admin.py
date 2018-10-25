@@ -15,11 +15,7 @@ class Admin(User):
         super().__init__(user_id, username)
         self.username = 'admin'
         self.admin_status = True
-        
-    def __str__(self):
-        """return string rep of class"""
-        return '{}'.format(self.username)
-
+    
     @staticmethod
     def add_product(product, product_list):
         """

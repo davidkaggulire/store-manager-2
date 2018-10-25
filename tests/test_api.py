@@ -181,12 +181,6 @@ class TestingApi(unittest.TestCase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('product name should not contain alphabet letters only', str(response.json))
 
-    # def test_get_all_products_when_list_is_empty(self):
-    #     """test to check for empty list"""
-    #     self.empty_product_list = []
-    #     response = self.client.get('/api/v1/products')
-    #     self.assertEqual(response.status_code, 200)
-
     def test_get_all_products(self):
         """test method to get all products """
         self.client.post('/api/v1/products', data=json.dumps(self.products[0]), 

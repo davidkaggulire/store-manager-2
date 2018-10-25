@@ -22,7 +22,7 @@ class Attendant(User):
         return '{}'.format(self.username)
 
     @staticmethod
-    def add_sale(sale_id, product_list, sales_list, attendant_id, product_name):
+    def add_sale(sale_id, quantity, price, product_list, sales_list, attendant_id, product_name):
         """
         method to add a sale order
         """
@@ -31,11 +31,10 @@ class Attendant(User):
             if product['product_name'] == product_name:
                 response = {
                     'sale_id': sale_id,
-                    'product_id': product['product_id'],
                     'product_name': product['product_name'],
+                    'price': price,
+                    'quantity': quantity,
                     'category': product['category'],
-                    'price': product['price'],
-                    'quantity': product['quantity'],
                     'attendant_id': attendant_id
                 }
                 sales_list.append(response)

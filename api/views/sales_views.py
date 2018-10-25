@@ -5,25 +5,24 @@ from api import app
 from api.models.user import User
 from api.models.admin import Admin
 from api.models.attendant import Attendant
+from api.models.sales import Sales
 from api.views.product_views import PRODUCT_LIST
 
 SALES_LIST = [
         {
                 "attendant_id": 1,
                 "category": "guitars",
-                "price": 500000,
-                "product_id": 2,
+                "price": 700000,
                 "product_name": "guitar",
-                "quantity": 10,
+                "quantity": 1,
                 "sale_id": 2
         },
         {
                 "attendant_id": 1,
                 "category": "keyboards",
                 "price": 1000000,
-                "product_id": 1,
                 "product_name": "piano",
-                "quantity": 10,
+                "quantity": 1,
                 "sale_id": 1
         }
 ]
@@ -37,20 +36,28 @@ def post_sales():
     """
     route to add a new sale
     """
-    form_data = request.get_json(force=True)
-    product_name = form_data['product_name']
-    sale_id = len(SALES_LIST) + 1
+    try:
+        form_data = request.get_json(force=True)
+        product_name = form_data['product_name']
+        quantity = form_data['quantity']
+        price = form_data['price']
+        sale_id = len(SALES_LIST) + 1
 
-    attendant_id = ATTENDANT_USER.user_id
-
-    if product_name != "":
-        save_sale = ATTENDANT_USER.add_sale(sale_id, PRODUCT_LIST, SALES_LIST, attendant_id, product_name)
-        if save_sale:
-            return make_response(jsonify({'message': save_sale}), 201)
-        else:
-            return make_response(jsonify({'message': 'Product not in store'}), 404)
-    else:
-        return make_response(jsonify({'message': 'Product name missing'}), 400)
+        new_sale = Sales(sale_id=sale_id, product_name=product_name, quantity=quantity, price=price)
+        attendant_id = ATTENDANT_USER.user_id
+        valid_sale = new_sale.validate_sale()
+    
+        if valid_sale is True:
+                save_sale = ATTENDANT_USER.add_sale(new_sale.sale_id, new_sale.quantity, new_sale.price, PRODUCT_LIST, SALES_LIST, attendant_id, new_sale.product_name)
+                if save_sale:
+                        return make_response(jsonify({'message': save_sale}), 201)
+                else:
+                        return make_response(jsonify({'message': 'Product not in store'}), 404)
+        return valid_sale 
+    except KeyError:
+        return jsonify({'error': 'field missing'}), 400
+      
+   
 
 @app.route('/api/v1/sales')
 def get_all_sales():

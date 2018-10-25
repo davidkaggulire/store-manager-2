@@ -18,12 +18,6 @@ class Sales():
         self.quantity = quantity
         self.price = price
 
-    def __str__(self):
-        """
-        returns string representation of attributes
-        """
-        return '{}'.format(self.sale_id)
-
     def validate_sale(self):
         """function to validate sale inputs"""
         if re.search(r'\s', self.product_name):

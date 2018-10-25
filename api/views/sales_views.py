@@ -57,8 +57,6 @@ def post_sales():
     except KeyError:
         return jsonify({'error': 'field missing'}), 400
       
-   
-
 @app.route('/api/v1/sales')
 def get_all_sales():
     """route to retrieve all sales"""    

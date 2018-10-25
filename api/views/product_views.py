@@ -60,7 +60,6 @@ def post_products():
     except KeyError:
         return make_response(jsonify({'message': 'Missing input field'}), 400)
     
-
 @app.route('/api/v1/products')
 def get_products():
     """route to return all products"""

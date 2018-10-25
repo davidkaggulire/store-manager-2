@@ -24,7 +24,7 @@ class User():
         """
         if len(product_list) == 0:
             return jsonify({'message': 'Please add products to store'}), 200
-        return jsonify(product_list), 200
+        return jsonify({'product_list': product_list}), 200
 
     @staticmethod
     def get_specific_product(product_id, product_list):

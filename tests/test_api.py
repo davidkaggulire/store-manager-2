@@ -77,9 +77,12 @@ class TestingApi(unittest.TestCase):
 # test for products
     def test_get_unexistent_product(self):
         """test method to get a product that doesnot exist"""
-        self.client.post('/api/v1/products', data=json.dumps(self.products[0]), 
-        content_type='application/json')
-        response = self.client.get('/api/v1/products/90')
+        self.client.post('/api/v1/products', json=dict(product_name="guitarbag", \
+        price=30000, category="bags", quantity=10, minimum_quantity=3, content_type='application/json'))
+        product_id = {
+            "id":9
+        }
+        response = self.client.get('/api/v1/products/{}'.format(product_id['id']))
         self.assertEqual(response.status_code, 404)
         self.assertIn('Product not found', str(response.data))
 
@@ -110,7 +113,7 @@ class TestingApi(unittest.TestCase):
         response = self.client.post('/api/v1/products', json=dict(product_name='piano'),
         content_type='application/json')
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Missing input field', str(response.json))
+        self.assertIn('Wrong input format', str(response.json))
 
     def test_post_empty_product(self):
         """test method to check for empty fields"""

@@ -46,15 +46,18 @@ def post_sales():
         new_sale = Sales(sale_id=sale_id, product_name=product_name, quantity=quantity, price=price)
         attendant_id = ATTENDANT_USER.user_id
         valid_sale = new_sale.validate_sale()
-    
-        if valid_sale is True:
-                save_sale = ATTENDANT_USER.add_sale(new_sale.sale_id, new_sale.quantity, new_sale.price, PRODUCT_LIST, SALES_LIST, attendant_id, new_sale.product_name)
-                if save_sale:
-                        return make_response(jsonify({'message': save_sale}), 201)
-                else:
-                        return make_response(jsonify({'message': 'Product not in store'}), 404)
-        return valid_sale 
-    except KeyError:
+        if product_name != '' and quantity != '' and price != '':
+                if valid_sale is True:
+                        save_sale = ATTENDANT_USER.add_sale(new_sale.sale_id, new_sale.quantity, new_sale.price, PRODUCT_LIST, SALES_LIST, attendant_id, new_sale.product_name)
+                        if save_sale:
+                                return make_response(jsonify({'message': save_sale}), 201)
+                        else:
+                                return make_response(jsonify({'message': 'Product not in store'}), 404)
+                return valid_sale 
+        else:
+                return jsonify({'error': 'field missing'}), 400
+
+    except Exception:
         return jsonify({'error': 'field missing'}), 400
       
 @app.route('/api/v1/sales')

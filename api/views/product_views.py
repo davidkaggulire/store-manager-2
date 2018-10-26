@@ -52,13 +52,16 @@ def post_products():
         product = Products(product_id=product_id, product_name=product_name, category=category,
         price=price, quantity=quantity, minimum_quantity=minimum_quantity)
         valid_product = product.validate_product()
+        if product_name != '' and category != '' and price != '' and quantity != '' and minimum_quantity != '':
+            if valid_product == True:
+                new_post = Admin.add_product(product, PRODUCT_LIST)
+                return make_response(jsonify({"message": new_post}), 201)
+            return valid_product
+        else:
+            return make_response(jsonify({'message': 'Missing input field'}), 400)
+    except Exception:
+        return make_response(jsonify({'message': 'Wrong input format'}), 400)
 
-        if valid_product == True:
-            new_post = Admin.add_product(product, PRODUCT_LIST)
-            return make_response(jsonify({"message": new_post}), 201)
-        return valid_product
-    except KeyError:
-        return make_response(jsonify({'message': 'Missing input field'}), 400)
     
 @app.route('/api/v1/products')
 def get_products():

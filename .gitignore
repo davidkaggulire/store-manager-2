@@ -6,3 +6,4 @@ api/models/__pycache__
 run.pyc
 .pytest_cache
 tests/__pycache__
+.coverage

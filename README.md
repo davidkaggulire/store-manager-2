@@ -43,18 +43,39 @@ In order to install the application, clone the remote repository to your local m
 
 `git clone https://github.com/davidkaggulire/store-manager-2.git`
 
-You can now access the project by pointing to the directory in which you have cloned the application using cd.
-When inside the application, you can then create a virtual environment by typing `python3 -m venv venv` where the first venv is to initiate creation fo virtual environment while the second venv is the name you would like to give to your virtual environment.
-You can now activate your virtual environment using `source venv/bin/activate`
+`cd` into the project directory.
+When inside the application, you can then create a virtual environment by typing 
+
+`python3 -m venv venv`.
+
+You can now activate your virtual environment using 
+
+`source venv/bin/activate`
 
 # Installing dependencies
-To install dependencies neede, use the following command `pip install -r requirements.txt`
+To install dependencies needed, use the following command
+
+ `pip install -r requirements.txt`
+
+# Running the project
+Type `export FLASK_APP=run.py`
+
+To run type `flask run`
 
 # Running Unit Tests
-You can run unit tests using this command `python -m pytest tests/test_api.py` and to check the **coverage** report using this command `python -m pytest tests --cov=api --cov-report term-missing`
+You can run unit tests using this command 
+
+
+`python -m pytest tests/test_api.py` 
+ 
+ 
+ To check the **coverage** report using this command.
+
+
+`python -m pytest tests --cov=api --cov-report term-missing`
 
 # Deployment
-THe app has been deployed on heroku and can be tested using this link (https://david-store-manager.herokuapp.com/)
+The app has been deployed on heroku and can be tested using this link (https://david-store-manager.herokuapp.com/)
 
 # Accessing Endpoints
 

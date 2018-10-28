@@ -62,6 +62,8 @@ Type `export FLASK_APP=run.py`
 
 To run type `flask run`
 
+Or simply type `python run.py`
+
 # Running Unit Tests
 You can run unit tests using this command 
 

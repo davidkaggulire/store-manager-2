@@ -6,7 +6,6 @@ class Config:
     """
     parent config class
     """
-
     DEBUG = False
 
 class DevelopmentConfig(Config):
@@ -21,3 +20,8 @@ class TestingConfig(Config):
     """
     DEBUG = True
     TESTING = True
+
+app_config = {
+    'development': DevelopmentConfig,
+    'testing': TestingConfig
+}

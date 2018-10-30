@@ -2,6 +2,8 @@
 
 import psycopg2
 from psycopg2.extras import RealDictCursor
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask import jsonify
 from api import app
 from config import DevelopmentConfig
 
@@ -27,11 +29,11 @@ class Database:
     user_table =("CREATE TABLE IF NOT EXISTS users"
                 "("
                   "user_id serial PRIMARY KEY,"
-                  "firstname VARCHAR (25) NOT NULL,"
-                  "lastname VARCHAR (25) NOT NULL,"
-                  "username VARCHAR (25) NOT NULL,"
-                  "password VARCHAR (25) NOT NULL,"
-                  "role VARCHAR (25) NOT NULL"
+                  "firstname VARCHAR (50) NOT NULL,"
+                  "lastname VARCHAR (50) NOT NULL,"
+                  "username VARCHAR (50) NOT NULL,"
+                  "password VARCHAR (100) NOT NULL,"
+                  "role VARCHAR (50) NOT NULL"
                 ")")
     self.cur.execute(user_table)
     return True
@@ -52,3 +54,24 @@ class Database:
 
     self.cur.execute(products_table)
     return True
+
+  def create_user(self, firstname, lastname, username, password):
+    """
+    method to register a user
+    """
+    query = "INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
+    '{}', '{}', '{}', '{}', 'attendant')".format(firstname, lastname, username, 
+    generate_password_hash(password))
+    self.cur.execute(query)
+    return True
+
+  def create_admin(self, firstname, lastname, username, password):
+    """
+    method to register an admin
+    """
+    query = "INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
+    '{}', '{}', '{}', '{}', 'admin')".format(firstname, lastname, username, generate_password_hash(password))
+    self.cur.execute(query)
+    return True
+
+  

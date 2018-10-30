@@ -2,7 +2,9 @@
 
 from flask import jsonify, request, make_response
 from api import app
-from api.models.models import Database
+from api.models.db import Database
+from api.models.user import User
+from api import db_operations
 
 @app.route('/')
 def home():

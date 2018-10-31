@@ -1,12 +1,8 @@
 """
 user.py
 """
-from werkzeug.security import generate_password_hash, check_password_hash
-from flask import jsonify
-from api.models.db import Database
 
-db = Database()
-dict_cursor = db.dict_cursor
+from api.models.db import Database
 
 class User:
   """class for user"""

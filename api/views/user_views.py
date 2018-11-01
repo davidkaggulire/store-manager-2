@@ -1,21 +1,15 @@
 """user_views.py"""
 
 import datetime
-from flask import jsonify, request
+from flask import jsonify, request, Blueprint
 from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity)
-from api import app
-from api.models.db import Database
 from api.models.user import User
 from api.user_operations import UserOperations
 from api.validators import Validators
 
-db = Database()
-db.create_user_table()
-db.create_products_table()
-db.create_sales_table()
+userpage = Blueprint('userpage', __name__)
 
-
-@app.route('/api/v2/auth/signup', methods=['POST'])
+@userpage.route('/api/v2/auth/signup', methods=['POST'])
 @jwt_required
 def signup():
     """
@@ -70,7 +64,7 @@ def signup():
         return jsonify({"error": "Please sign in as admin"}), 401
 
 
-@app.route('/api/v2/auth/login', methods=['POST'])
+@userpage.route('/api/v2/auth/login', methods=['POST'])
 def login():
     """route to login a user"""
     try:
@@ -92,7 +86,7 @@ def login():
         valid_username = UserOperations.check_username(username)
         valid_password = UserOperations.check_password(password, username)
         if valid_username and valid_password:
-            identity = dict(username=valid_username.get('username'), role=valid_username.get('role'))
+            identity = dict(username=valid_username.get('username'), role=valid_username.get('role'), id=valid_username.get('user_id'))
             auth_token = create_access_token(identity=identity, expires_delta=expires)
             message = {
                 "message": "User successfully logged in",
@@ -111,7 +105,7 @@ def login():
         return jsonify({"error": "wrong input data"}), 400
 
 
-@app.route('/api/v2/auth/admin', methods=['POST'])
+@userpage.route('/api/v2/auth/admin', methods=['POST'])
 def create_admin():
     """
     method to signup a user

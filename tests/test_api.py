@@ -4,30 +4,27 @@ module test
 
 import unittest
 import json
-from api import app
 from api.models.db import Database
+from api import create_app
+    
 
 db = Database()
 class TestingApi(unittest.TestCase):
     """
     class that tests routes
     """
-    def create_app(self):
-        """initialize the app"""
-        app.config.from_object('config.TestingConfig')
-        return app
-
+  
     def setUp(self):
         """
         setting up test data 
-        """
-        
+        """ 
+        app = create_app("testing")
+        self.client = app.test_client()
         db.create_products_table()
         db.create_sales_table()
         db.create_user_table()
-        self.client = app.test_client()
 
-      
+    
 # # test for products
 #     def test_get_unexistent_product(self):
 #         """test method to get a product that doesnot exist"""
@@ -40,25 +37,25 @@ class TestingApi(unittest.TestCase):
 #         self.assertEqual(response.status_code, 404)
 #         self.assertIn('Product not found', str(response.data))
 
-#     def test_index_route(self):
-#         """test method for index route"""
-#         response = self.client.get('/')
-#         self.assertEqual(response.status_code, 200)
+    def test_index_route(self):
+        """test method for index route"""
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
 
-#     def test_post_on_url_product(self):
-#         """test method to post on url"""
-#         response = self.client.post('/api/v1/products/1', data=json.dumps(self.products[0]), 
-#         content_type='application/json')
-#         self.assertEqual(response.status_code, 400)
-#         response = self.client.post('/api/v1/products/', data=json.dumps(self.products[0]), 
-#         content_type='application/json')
-#         self.assertEqual(response.status_code, 400)
+    def test_post_on_url_product(self):
+        """test method to post on url"""
+        response = self.client.post('/api/v1/products/1', data=json.dumps(self.products[0]), 
+        content_type='application/json')
+        self.assertEqual(response.status_code, 400)
+        response = self.client.post('/api/v1/products/', data=json.dumps(self.products[0]), 
+        content_type='application/json')
+        self.assertEqual(response.status_code, 400)
         
 #     def test_post_products(self):
 #         """test method to post products"""
-#         response = self.client.post('/api/v1/products')
+#         response = self.client.post('/api/v2/products')
 #         self.assertEqual(response.status_code, 400)
-#         response = self.client.post('/api/v1/products',data=json.dumps(self.products[0]), 
+#         response = self.client.post('/api/v2/products',data=json.dumps(self.products[0]), 
 #         content_type='application/json')
 #         self.assertEqual(response.status_code, 201)
 #         self.assertIn('Product added successfully', str(response.data))

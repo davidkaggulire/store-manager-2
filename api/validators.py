@@ -25,7 +25,7 @@ class Validators:
         return jsonify({'error': 'input should be a number'}), 400  
   
   @staticmethod
-  def validate_password(password):
+  def validate_password(password): 
     """validate """
     if not len(password) >= 6:
         return jsonify({"error": "password length should be equal or greater than 6"})

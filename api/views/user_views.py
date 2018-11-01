@@ -26,8 +26,15 @@ def signup():
             username = form_data['username']
             password = form_data['password']
 
-            if firstname == '' or lastname == '' or username == '' or password == '':
-                return jsonify({"error": "missing field(s) required"}), 400
+            if firstname == '':
+                return jsonify({"error": "firstname required"}), 400
+            if lastname == '':
+                return jsonify({"error": "lastname required"}), 400
+            if username == '':
+                return jsonify({"error": "username required"}), 400
+            if password == '':
+                return jsonify({"error": "password required"}), 400
+
             valid_first = Validators.validate_input_string(firstname)
             valid_last = Validators.validate_input_string(lastname)
             valid_username = Validators.validate_input_string(username)
@@ -117,8 +124,15 @@ def create_admin():
         username = form_data['username']
         password = form_data['password']
 
-        if firstname == '' or lastname == '' or username == '' or password == '':
-            return jsonify({"error": "missing field(s) required"}), 400
+        if firstname == '':
+            return jsonify({"error": "firstname required"}), 400
+        if lastname == '':
+            return jsonify({"error": "lastname required"}), 400
+        if username == '':
+            return jsonify({"error": "username required"}), 400
+        if password == '':
+            return jsonify({"error": "password required"}), 400
+
         valid_first = Validators().validate_input_string(firstname)
         valid_last = Validators.validate_input_string(lastname)
         valid_username = Validators.validate_input_string(username)

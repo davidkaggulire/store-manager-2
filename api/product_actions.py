@@ -15,10 +15,8 @@ class ProductActions:
         """
         method to create products
         """
-        query = "INSERT INTO products(product_name, category, price, quantity, minimum_quantity) VALUES(\
-        '{}', '{}', '{}', '{}', '{}')".format(product_name, category, price, quantity, 
-        minimum_quantity)
-        cursor.execute(query)
+        cursor.execute("INSERT INTO products(product_name, category, price, quantity, minimum_quantity) VALUES(\
+        %s, %s, %s, %s, %s)", (product_name, category, price, quantity, minimum_quantity,))
         return True
 
     @staticmethod
@@ -26,48 +24,47 @@ class ProductActions:
         """
         method that returns all products 
         """
-        query = "SELECT * FROM products"
-        dict_cursor.execute(query)
-        products = dict_cursor.fetchall()
-        return products
+        dict_cursor.execute("SELECT * FROM products")
+        return dict_cursor.fetchall()
 
     @staticmethod
     def get_single_product(product_id):
         """
         method to return a single product
         """
-        query = "SELECT * FROM products WHERE product_id='{}'".format(product_id)
-        cursor.execute(query)
-        data = cursor.fetchone()
-        return data
+        cursor.execute("SELECT * FROM products WHERE product_id=%s",(product_id,))
+        return cursor.fetchone()
         
     @staticmethod
     def edit_product(product_id, product_name, category, price, quantity, minimum_quantity):
         """
         method to update a single product
         """
-        query = "UPDATE products SET product_name='{}', category='{}', price='{}', \
-        quantity='{}', minimum_quantity='{}' WHERE product_id='{}'".format(product_name, category, price, quantity, minimum_quantity, product_id)
-        dict_cursor.execute(query)
-        return dict_cursor
+        dict_cursor.execute("UPDATE products SET product_name=%s, category=%s, price=%s, quantity=%s,\
+        minimum_quantity=%s WHERE product_id=%s", (product_name, category, price, quantity, minimum_quantity, product_id,))
+        return True
+
+    @staticmethod
+    def update_on_sale(product_id, quantity):
+        """
+        method to update on sale (it takes on quantity only)
+        """
+        dict_cursor.execute("UPDATE products SET quantity=%s WHERE product_id=%s", (quantity, product_id,))
+        return True
 
     @staticmethod
     def check_product_name(product_name):
         """
         method to check if product_name exists
         """
-        query = "SELECT * from products WHERE product_name='{}'\
-        ".format(product_name)
-        dict_cursor.execute(query)
-        data = dict_cursor.fetchone()
-        return data
+        dict_cursor.execute("SELECT * from products WHERE product_name=%s",(product_name,))
+        return dict_cursor.fetchone()
 
     @staticmethod
     def delete_product(product_id):
         """
         method to delete a product
         """
-        query = "DELETE from products WHERE product_id='{}'".format(product_id)
-        cursor.execute(query)
-        return cursor
+        cursor.execute("DELETE from products WHERE product_id=%s", (product_id,))
+        return True
     

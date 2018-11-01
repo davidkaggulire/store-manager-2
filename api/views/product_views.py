@@ -1,19 +1,21 @@
 """product_views.py"""
 
-from flask import jsonify, request, make_response
-from api import app
+from flask import jsonify, request, make_response, Blueprint
 from api.models.products import Products
 from api.product_actions import ProductActions
 from api.validators import Validators
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
 
-@app.route('/')
+product = Blueprint('product', __name__)
+
+
+@product.route('/')
 def home():
     """Home route"""
     return make_response(jsonify({"message": "Welcome to Store Manager"}), 200)
 
 
-@app.route('/api/v2/products', methods=['POST'])
+@product.route('/api/v2/products', methods=['POST'])
 @jwt_required
 def post_products():
     """
@@ -57,10 +59,10 @@ def post_products():
             if valid_minimum:
                 return valid_minimum
 
-            product_in_store = ProductActions.check_product_name(product_name)
+            product_in_store = ProductActions.check_product_name(product.product_name)
             if product_in_store:
                 error = {
-                    "error": "Product {} already exists.".format(product.product_name)
+                    "error": "Product {} already exists.".format(product_name)
                 }
                 return jsonify(error), 200
             # save product in database
@@ -69,11 +71,11 @@ def post_products():
                 message = {
                     "message": "Product created successfully",
                     "product": {
-                        "product_name": "{}".format(product_name),
-                        "category": "{}".format(category),
-                        "price": "{}".format(price),
-                        "quantity": "{}".format(quantity),
-                        "minimum_quantity": "{}".format(minimum_quantity),
+                        "product_name": product_name,
+                        "category": category,
+                        "price": price,
+                        "quantity": quantity,
+                        "minimum_quantity": minimum_quantity,
                     }
                 }
                 return jsonify(message), 201
@@ -83,7 +85,7 @@ def post_products():
         return jsonify({"error": "Please sign in as admin"}), 401
 
 
-@app.route('/api/v2/products')
+@product.route('/api/v2/products')
 @jwt_required
 def get_products():
     """route to return all products"""
@@ -99,9 +101,10 @@ def get_products():
                 "product_list": get_all_products
             }
             return jsonify(message), 200
+        else:
+            return jsonify({"message": "No products found" }), 404
 
-
-@app.route('/api/v2/products/<int:product_id>')  
+@product.route('/api/v2/products/<int:product_id>')
 def get_product(product_id):
     """route to get single product"""
     fetch_one_product = ProductActions().get_single_product(product_id)
@@ -120,25 +123,22 @@ def get_product(product_id):
         }
         return jsonify(message), 200
     else:
-        error = {
-            "error": "Product not found"
-        }
-        return jsonify(error), 404
+        return jsonify({"error": "Product not found"}), 404
 
 
-@app.route('/api/v2/products/<int:product_id>', methods=['POST'])
+@product.route('/api/v2/products/<int:product_id>', methods=['POST'])
 def post_product(product_id):
     """route to post a product to an Id"""
     return jsonify({"error": "Unallowed route"}), 400
 
 
-@app.route('/api/v2/products/', methods=['POST'])
+@product.route('/api/v2/products/', methods=['POST'])
 def post_wrong_url_products():
     """route to handle wrong url on post"""
     return jsonify({"error": "Unallowed route"}), 400
 
 
-@app.route('/api/v2/products/<int:product_id>', methods=['PUT'])
+@product.route('/api/v2/products/<int:product_id>', methods=['PUT'])
 @jwt_required
 def update_product(product_id):
     """route to update a product """
@@ -201,15 +201,12 @@ def update_product(product_id):
         return jsonify({"error": "Please sign in as admin"}), 401
 
 
-@app.route('/api/v2/products/<int:product_id>', methods=['DELETE'])
+@product.route('/api/v2/products/<int:product_id>', methods=['DELETE'])
 def delete(product_id):
     """route to delete product"""
     get_product = ProductActions.get_single_product(product_id)
     if get_product:
         deleted_product = ProductActions.delete_product(product_id)
         if deleted_product:
-            message = {
-                "message": "product deleted successfully",
-            }
-            return jsonify(message), 200
+            return jsonify({"message": "product deleted successfully"}), 200
     return jsonify({"error": "product not found"}), 404

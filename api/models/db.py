@@ -4,8 +4,8 @@ import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
 from api import app
-from config import TestingConfig
-
+from api import app_config
+from config import TestingConfig, DevelopmentConfig
 
 app.config.from_object(TestingConfig)
 class Database:
@@ -13,16 +13,13 @@ class Database:
   def __init__(self):
     """connect to the database"""
     try:
-        if os.getenv("environment_variable") == 'Testing':
-            db_name = "store"
-        else:
-            db_name = "storemanagerapp"
+        db_name = "store"
         self.conn = psycopg2.connect(dbname=db_name, user="postgres", password="password",\
         host="localhost", port="5432")
         self.conn.autocommit = True
         self.cur = self.conn.cursor()
         self.dict_cursor = self.conn.cursor(cursor_factory=RealDictCursor)
-        print("Connected to "+db_name)
+        print("Connected to {}".format(db_name))
 
     except Exception:
         print("Database connection failed")

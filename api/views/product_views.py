@@ -86,23 +86,18 @@ def post_products():
 
 
 @product.route('/api/v2/products')
-@jwt_required
 def get_products():
     """route to return all products"""
-
-    user_identity = get_jwt_identity()
-
-    if user_identity['role'] == 'admin' or user_identity['role'] == 'attendant':
-        fetch_all = ProductActions()
-        get_all_products = fetch_all.get_products()
-        if get_all_products:
-            message = {
-                "message": "All products returned successfully",
-                "product_list": get_all_products
-            }
-            return jsonify(message), 200
-        else:
-            return jsonify({"message": "No products found" }), 404
+    fetch_all = ProductActions()
+    get_all_products = fetch_all.get_products()
+    if get_all_products:
+        message = {
+            "message": "All products returned successfully",
+            "product_list": get_all_products
+        }
+        return jsonify(message), 200
+    else:
+        return jsonify({"message": "No products found" }), 404
 
 @product.route('/api/v2/products/<int:product_id>')
 def get_product(product_id):
@@ -124,6 +119,12 @@ def get_product(product_id):
         return jsonify(message), 200
     else:
         return jsonify({"error": "Product not found"}), 404
+
+
+@product.route('/api/v2/products/')
+def get_on_url():
+    """route to get on wrong data"""
+    return jsonify({"error": "Unallowed route"}), 400
 
 
 @product.route('/api/v2/products/<int:product_id>', methods=['POST'])
@@ -199,6 +200,12 @@ def update_product(product_id):
             return jsonify({"error": "Wrong data format"}), 400
     else:
         return jsonify({"error": "Please sign in as admin"}), 401
+
+
+@product.route('/api/v2/products', methods=['PUT'])
+def put_on_wrong_route():
+    """route to put on wrong route"""
+    return jsonify({"error": "unallowed route"}), 400
 
 
 @product.route('/api/v2/products/<int:product_id>', methods=['DELETE'])

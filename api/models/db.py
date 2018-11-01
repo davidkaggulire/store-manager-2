@@ -3,24 +3,20 @@
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from werkzeug.security import generate_password_hash, check_password_hash
-
-from flask import jsonify
 from api import app
-from config import DevelopmentConfig
+from config import TestingConfig
 
-# app = create_app()
 
-app.config.from_object(DevelopmentConfig)
+app.config.from_object(TestingConfig)
 class Database:
   """class to define databases for storemanager"""
   def __init__(self):
     """connect to the database"""
     try:
         if os.getenv("environment_variable") == 'Testing':
-          db_name = "store"
+            db_name = "store"
         else:
-          db_name = "storemanagerapp"
+            db_name = "storemanagerapp"
         self.conn = psycopg2.connect(dbname=db_name, user="postgres", password="password",\
         host="localhost", port="5432")
         self.conn.autocommit = True
@@ -29,7 +25,7 @@ class Database:
         print("Connected to "+db_name)
 
     except Exception:
-      print("Database connection failed")
+        print("Database connection failed")
     
   def create_user_table(self):
     """method to create user table"""

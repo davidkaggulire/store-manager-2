@@ -3,17 +3,18 @@
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from api import app
-from api import app_config
 from config import TestingConfig, DevelopmentConfig
 
-app.config.from_object(TestingConfig)
+# app.config.from_object(TestingConfig)
 class Database:
   """class to define databases for storemanager"""
   def __init__(self):
     """connect to the database"""
     try:
-        db_name = "store"
+        if os.getenv('APP_SETTING') == 'Testing':
+            db_name = "test"
+        else:
+            db_name = "storemanagerapp"
         self.conn = psycopg2.connect(dbname=db_name, user="postgres", password="password",\
         host="localhost", port="5432")
         self.conn.autocommit = True
@@ -60,26 +61,26 @@ class Database:
                     "("
                       "sale_id serial PRIMARY KEY,"
                       "product_name VARCHAR (50) NOT NULL,"
-                      "price INTEGER NOT NULL,"
                       "quantity INTEGER NOT NULL,"
-                      "date TIMESTAMP DEFAULT NOW(),"
-                      "user_id INTEGER, FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE RESTRICT,"
-                      "product_id INTEGER, FOREIGN KEY (product_id) REFERENCES products(product_id) ON DELETE RESTRICT"
+                      "total INTEGER NOT NULL, "
+                      "user_id INTEGER,"
+                      "product_id INTEGER,"
+                      "date TIMESTAMP DEFAULT NOW()"
                     ")")
     self.cur.execute(sales_table)
     return True
 
   def drop_table_user(self):
     """method to drop tables"""
-    drop_user = "DROP TABLE IF EXISTS users"
+    drop_user = "DROP TABLE IF EXISTS users CASCADE"
     self.cur.execute(drop_user)
 
   def drop_table_products(self):
     """method to drop table sales"""
-    drop_user = "DROP TABLE IF EXISTS products"
+    drop_user = "DROP TABLE IF EXISTS products CASCADE"
     self.cur.execute(drop_user)
 
   def drop_table_sales(self):
     """method to drop table sales"""
-    drop_user = "DROP TABLE IF EXISTS sales"
+    drop_user = "DROP TABLE IF EXISTS sales CASCADE"
     self.cur.execute(drop_user)

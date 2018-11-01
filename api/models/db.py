@@ -3,9 +3,8 @@
 import os
 import psycopg2
 from psycopg2.extras import RealDictCursor
-from config import TestingConfig, DevelopmentConfig
 
-# app.config.from_object(TestingConfig)
+
 class Database:
   """class to define databases for storemanager"""
   def __init__(self):
@@ -15,8 +14,7 @@ class Database:
             db_name = "test"
         else:
             db_name = "storemanagerapp"
-        self.conn = psycopg2.connect(dbname=db_name, user="postgres", password="password",\
-        host="localhost", port="5432")
+        self.conn = psycopg2.connect(dbname=db_name, user="postgres", password="password", host="localhost", port="5432")
         self.conn.autocommit = True
         self.cur = self.conn.cursor()
         self.dict_cursor = self.conn.cursor(cursor_factory=RealDictCursor)
@@ -28,14 +26,14 @@ class Database:
   def create_user_table(self):
     """method to create user table"""
     user_table =("CREATE TABLE IF NOT EXISTS users"
-                "("
-                  "user_id serial PRIMARY KEY,"
-                  "firstname VARCHAR (50) NOT NULL,"
-                  "lastname VARCHAR (50) NOT NULL,"
-                  "username VARCHAR (50) NOT NULL,"
-                  "password VARCHAR (100) NOT NULL,"
-                  "role VARCHAR (50) NOT NULL"
-                ")")
+                    "("
+                    "user_id serial PRIMARY KEY,"
+                    "firstname VARCHAR (50) NOT NULL,"
+                    "lastname VARCHAR (50) NOT NULL,"
+                    "username VARCHAR (50) NOT NULL,"
+                    "password VARCHAR (100) NOT NULL,"
+                    "role VARCHAR (50) NOT NULL"
+                    ")")
     self.cur.execute(user_table)
     return True
 
@@ -49,7 +47,7 @@ class Database:
                       "price INTEGER NOT NULL,"
                       "quantity INTEGER NOT NULL,"
                       "minimum_quantity INTEGER NOT NULL,"
-                      "time TIMESTAMP DEFAULT NOW()"
+                      "date_created TIMESTAMP DEFAULT NOW()"
                     ")")
 
     self.cur.execute(products_table)
@@ -63,8 +61,8 @@ class Database:
                       "product_name VARCHAR (50) NOT NULL,"
                       "quantity INTEGER NOT NULL,"
                       "total INTEGER NOT NULL, "
-                      "user_id INTEGER,"
-                      "product_id INTEGER,"
+                      "attendant_id INTEGER NOT NULL,"
+                      "product_id INTEGER NOT NULL,"
                       "date TIMESTAMP DEFAULT NOW()"
                     ")")
     self.cur.execute(sales_table)

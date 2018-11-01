@@ -18,10 +18,9 @@ class UserOperations():
     """
     method to register a user
     """
-    query = "INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
-    '{}', '{}', '{}', '{}', 'attendant')".format(firstname, lastname, username, 
-    generate_password_hash(password))
-    cursor.execute(query)
+    cursor.execute("INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
+    %s, %s, %s, %s, 'attendant')", (firstname, lastname, username, 
+    generate_password_hash(password),))
     return True
 
   @staticmethod
@@ -29,29 +28,24 @@ class UserOperations():
     """
     method to register an admin
     """
-    query = "INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
-    '{}', '{}', '{}', '{}', 'admin')".format(firstname, lastname, username, generate_password_hash(password))
-    cursor.execute(query)
+    cursor.execute("INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
+    %s, %s, %s, %s, 'admin')", (firstname, lastname, username, generate_password_hash(password),))
     return True
-
 
   @staticmethod
   def check_username(username):
     """
     method to check if username exists
     """
-    query = "SELECT * from users WHERE username='{}'".format(username)
-    dict_cursor.execute(query)
-    data = dict_cursor.fetchone()
-    return data
+    dict_cursor.execute("SELECT * from users WHERE username=%s", (username,))
+    return dict_cursor.fetchone()
 
   @staticmethod
   def check_password(password, username):
     """
     function to check user password
     """ 
-    query = "SELECT password from users WHERE username='{}'".format(username)
-    cursor.execute(query)
+    cursor.execute("SELECT password from users WHERE username=%s", (username,))
     data = cursor.fetchall()
     for d in data:
       check = check_password_hash(d[0], password)
@@ -65,9 +59,7 @@ class UserOperations():
     """
     get user by id
     """
-    query = "SELECT role from users WHERE username='{}'".format(username)
-    cursor.execute(query)
+    cursor.execute("SELECT role from users WHERE username=%s", (username,))
     data = cursor.fetchall()
     for id in data:
-      print(id[0])
       return id[0]

@@ -12,12 +12,12 @@ class Sales_Controller:
     handles actions to be implemented from models to views
     """
     @staticmethod
-    def create_sale(product_name, quantity, total, user_id, product_id):
+    def create_sale(product_name, quantity, total, attendant_id, product_id):
         """
         method to register a user
         """
-        cursor.execute("INSERT INTO sales(product_name, quantity, total, user_id, product_id) VALUES(\
-        %s, %s, %s, %s, %s)",(product_name, quantity, total, user_id, product_id))
+        cursor.execute("INSERT INTO sales(product_name, quantity, total, attendant_id, product_id) VALUES(\
+        %s, %s, %s, %s, %s)",(product_name, quantity, total, attendant_id, product_id))
         return True
 
     @staticmethod

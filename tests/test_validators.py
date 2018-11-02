@@ -24,7 +24,6 @@ class TestValidators(unittest.TestCase):
     def test_validate_product(self):
         """test to ensure correct data"""
         self.assertEqual(self.validate.validate_input_number(PRODUCT['price']), None)
-        # self.assertEqual(self.validate.validate_input_number(PRODUCT['price']), int)
        
 if __name__ == '__main__':
     unittest.main()

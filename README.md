@@ -83,12 +83,16 @@ The app has been deployed on heroku and can be tested using this link (https://d
 
 | Method        | Route           | Function  |
 | ------------- |:-------------------:| -----:|
-| POST  | api/v1/products   |post products      |
-| GET   | api/v1/products    |get products   |
-| GET   | api/v1/products/product_id  |   get product by id       |
-| POST  | api/v1/sales   |post a sale        |
-| GET   | api/v1/sales   |get all sales        |
-| GET   | api/v1/sales/sale_id   |get sale by id        |
+| POST  | api/v2/login   |login user      |
+| POST  | api/v2/auth/signup   |signup user      |
+| POST  | api/v2/products   |post products      |
+| GET   | api/v2/products    |get products   |
+| GET   | api/v2/products/product_id  |   get product by id       |
+| PUT   | api/v2/products/product_id  |   put product by id       |
+| DELETE  | api/v2/products/product_id  |   delete product by id       |
+| POST  | api/v2/sales   |post a sale        |
+| GET   | api/v2/sales   |get all sales        |
+| GET   | api/v2/sales/sale_id   |get sale by id        |
 
 # Built with:
 **User Interface:**

@@ -11,10 +11,10 @@ class Database:
     def __init__(self):
         """connect to the database"""
         try:
-            if os.getenv('APP_SETTING') == 'Testing':
+            if os.getenv('APP_SETTING') == 'testing':
                 db_name = "testdb"
             else:
-                db_name = "storemanagerapp"
+                db_name = "store"
             self.conn = psycopg2.connect(dbname=db_name, user="postgres", password="password", host="localhost", port="5432")
             self.conn.autocommit = True
             self.cur = self.conn.cursor()

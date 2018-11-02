@@ -145,7 +145,7 @@ def create_admin():
             return valid_username
         if valid_password:
             return valid_password
-        user = User(firstname, lastname, username, password)
+        user = User(firstname=firstname, lastname=lastname, username=username, password=password)
         operations = UserOperations.check_username(user.username)
         if operations:
             error = {

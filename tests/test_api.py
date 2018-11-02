@@ -6,9 +6,9 @@ import unittest
 import json
 from api.models.db import Database
 from api import create_app
-    
+from . import ADMIN_USER, LOGIN_ADMIN, USER, PRODUCT
 
-db = Database()
+
 class TestingApi(unittest.TestCase):
     """
     class that tests routes
@@ -20,9 +20,10 @@ class TestingApi(unittest.TestCase):
         """ 
         app = create_app("testing")
         self.client = app.test_client()
-        db.create_products_table()
-        db.create_sales_table()
-        db.create_user_table()
+        self.db = Database()
+        self.db.create_products_table()
+        self.db.create_sales_table()
+        self.db.create_user_table()
 
     
 # # test for products
@@ -44,22 +45,35 @@ class TestingApi(unittest.TestCase):
 
     def test_post_on_url_product(self):
         """test method to post on url"""
-        response = self.client.post('/api/v1/products/1', data=json.dumps(self.products[0]), 
+        response = self.client.post('/api/v2/products/1', data=json.dumps(PRODUCT), 
         content_type='application/json')
         self.assertEqual(response.status_code, 400)
-        response = self.client.post('/api/v1/products/', data=json.dumps(self.products[0]), 
+        response = self.client.post('/api/v2/products/', data=json.dumps(PRODUCT), 
         content_type='application/json')
         self.assertEqual(response.status_code, 400)
         
-#     def test_post_products(self):
-#         """test method to post products"""
-#         response = self.client.post('/api/v2/products')
-#         self.assertEqual(response.status_code, 400)
-#         response = self.client.post('/api/v2/products',data=json.dumps(self.products[0]), 
-#         content_type='application/json')
-#         self.assertEqual(response.status_code, 201)
-#         self.assertIn('Product added successfully', str(response.data))
+    def test_post_products(self):
+        """test method to post products without token"""
+        response = self.client.post('/api/v2/products')
+        self.assertEqual(response.status_code, 401)
+        response = self.client.post('/api/v2/products',data=json.dumps(PRODUCT), 
+        content_type='application/json')
+        msg = json.loads(response.data.decode())
+        self.assertIn("Missing Authorization Header", msg['msg'])
+        self.assertEqual(response.status_code, 401)
+
+    def test_post_product_if_admin(self):
+        """test method to post product if admin"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
+        json=ADMIN_USER)
+        response = self.client.post('/api/v2/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['token']
+        # response = self.client.post('/api/v2/products', data=json.dumps(PRODUCT),
+        # headers = {'content_type': 'application/json', 'Authorization': "Bearer "+ token})
+
     
+
 #     def test_post_product_with_missing_field(self):
 #         response = self.client.post('/api/v1/products', json=dict(product_name='piano'),
 #         content_type='application/json')
@@ -240,9 +254,9 @@ class TestingApi(unittest.TestCase):
 #         self.assertIn('Unallowed ', str(response.data))
 
     def tearDown(self):
-       db.drop_table_products()
-       db.drop_table_sales()
-       db.drop_table_user()
+       self.db.drop_table_products()
+       self.db.drop_table_sales()
+       self.db.drop_table_user()
 if __name__ == '__main__':
     unittest.main()
     

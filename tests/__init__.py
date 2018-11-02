@@ -14,8 +14,16 @@ USER = {
 	"password": "dkaggs123!"
 }
 
-LOGIN = {
+LOGIN_ADMIN = {
     "username":"don",
 	"password": "don1234!"
 }
 
+
+PRODUCT = {
+	"product_name": "book",
+	"category": "scholastic",
+	"price": 5000,
+	"quantity": 10,
+	"minimum_quantity": 2
+}

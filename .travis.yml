@@ -1,5 +1,9 @@
 language: python
 
+env:
+  global:
+    - APP_SETTINGS="testing"
+
 python:
   - "3.5"
 
@@ -8,6 +12,9 @@ install:
   - pip install coveralls
   - pip install pytest
   - pip install coverage
+
+before_script:
+  - "psql -c 'create database test_db;' -U postgres"
 
 script:
   - python -m pytest tests --cov=api 

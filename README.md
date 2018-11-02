@@ -76,9 +76,6 @@ You can run unit tests using this command
 
 `python -m pytest tests --cov=api --cov-report term-missing`
 
-# Deployment
-The app has been deployed on heroku and can be tested using this link (https://david-store-manager.herokuapp.com/)
-
 # Accessing Endpoints
 
 | Method        | Route           | Function  |

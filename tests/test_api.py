@@ -65,20 +65,20 @@ class TestingApi(unittest.TestCase):
         self.assertIn("Missing Authorization Header", msg['msg'])
         self.assertEqual(response.status_code, 401)
 
-    # def test_post_product_if_admin(self):
-    #     """test method to post product if admin"""
-    #     response = self.client.post('/api/v2/auth/admin', content_type='application/json',
-    #     json=dict(ADMIN_USER))
-    #     self.assertEqual(response.status_code, 201)
-    #     print(response)
-    #     response = self.client.post('/api/v2/login', content_type='application/json', json=dict(""))
-    #     print(response)
-    #     msg = json.loads(response.data)
-    #     token = msg['auth_token']
-    #     print(msg)
-    #     print(token)
-    #     response = self.client.post('/api/v2/products', data=json.dumps(PRODUCT),
-    #     headers = {'content_type': 'application/json', 'Authorization': "Bearer "+ token})
+    def test_post_product_if_admin(self):
+        """test method to post product if admin"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
+        json=dict(ADMIN_USER))
+        self.assertEqual(response.status_code, 201)
+        print(response)
+        response = self.client.post('/api/v2/login', content_type='application/json', json=dict(username="don", password="don1234!"))
+        print(response)
+        msg = json.loads(response.data.decode())
+        token = msg['auth_token']
+        print(msg)
+        print(token)
+        # response = self.client.post('/api/v2/products', data=json.dumps(PRODUCT),
+        # headers = {'content_type': 'application/json', 'Authorization': "Bearer "+ token})
         
 
     
@@ -269,4 +269,5 @@ class TestingApi(unittest.TestCase):
        self.db.drop_table_user()
 if __name__ == '__main__':
     unittest.main()
-    
+
+

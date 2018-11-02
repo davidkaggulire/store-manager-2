@@ -20,8 +20,8 @@ LOGIN_USER = {
 }
 
 LOGIN_ADMIN = {
-    "username":"don",
-	"password": "don1234!"
+    "username":"dkaggs",
+	"password": "dkaggs123!"
 }
 
 
@@ -31,4 +31,29 @@ PRODUCT = {
 	"price": 5000,
 	"quantity": 10,
 	"minimum_quantity": 2
+}
+
+PRODUCT_LIST=[
+    {
+        "product_name": "book",
+        "category": "scholastic",
+        "price": 5000,
+        "quantity": 10,
+        "minimum_quantity": 2
+    },
+    {
+        "product_name": "pen",
+        "category": "scholastic",
+        "price": 500,
+        "quantity": 10,
+        "minimum_quantity": 2
+    }
+]
+
+EMPTY_PRODUCT = {
+    "product_name": "",
+	"category": "",
+	"price": "",
+	"quantity": "",
+	"minimum_quantity": ""
 }

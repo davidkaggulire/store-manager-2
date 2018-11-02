@@ -61,10 +61,10 @@ def post_products():
 
             product_in_store = ProductActions.check_product_name(product.product_name)
             if product_in_store:
-                error = {
-                    "error": "Product {} already exists.".format(product_name)
+                message = {
+                    "message": "Product {} already exists.".format(product_name)
                 }
-                return jsonify(error), 200
+                return jsonify(message), 200
             # save product in database
             save_product = ProductActions.create_product(product_name, category, price, quantity, minimum_quantity)
             if save_product:
@@ -80,9 +80,9 @@ def post_products():
                 }
                 return jsonify(message), 201
         except Exception:
-            return jsonify({'message': 'Please input right data format'}), 400
+            return jsonify({'error': 'Please input right data format'}), 400
     else:
-        return jsonify({"error": "Please sign in as admin"}), 401
+        return jsonify({"message": "Please sign in as admin"}), 401
 
 
 @product.route('/api/v2/products')
@@ -118,7 +118,7 @@ def get_product(product_id):
         }
         return jsonify(message), 200
     else:
-        return jsonify({"error": "Product not found"}), 404
+        return jsonify({"message": "Product not found"}), 404
 
 
 @product.route('/api/v2/products/')

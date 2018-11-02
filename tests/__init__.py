@@ -14,6 +14,11 @@ USER = {
 	"password": "dkaggs123!"
 }
 
+LOGIN_USER = {
+   "username":"dkaggs",
+	"password": "dkaggs123!"
+}
+
 LOGIN_ADMIN = {
     "username":"don",
 	"password": "don1234!"

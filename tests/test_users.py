@@ -9,7 +9,7 @@ from api import create_app
 from . import ADMIN_USER, LOGIN_ADMIN, USER, PRODUCT, EMPTY_PRODUCT, LOGIN_USER
 from tests.base_test import BaseTest
 
-class TestingUsers(BaseTest):
+class TestUsers(BaseTest):
     """
     class that tests routes
     """

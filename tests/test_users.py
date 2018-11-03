@@ -7,9 +7,9 @@ import json
 from api.models.db import Database
 from api import create_app
 from . import ADMIN_USER, LOGIN_ADMIN, USER, PRODUCT, EMPTY_PRODUCT, LOGIN_USER
-from tests.base_test import BaseTest
+from tests.base_test import TestBase
 
-class TestUsers(BaseTest):
+class TestUsers(TestBase):
     """
     class that tests routes
     """

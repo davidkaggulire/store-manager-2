@@ -3,7 +3,7 @@ import json
 from api.models.db import Database
 from api import create_app
 
-class TestingDb(unittest.TestCase):
+class TestDatabase(unittest.TestCase):
     """
     class that tests routes
     """

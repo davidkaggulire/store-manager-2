@@ -57,3 +57,8 @@ EMPTY_PRODUCT = {
 	"quantity": "",
 	"minimum_quantity": ""
 }
+
+SALE = {
+    'product_id': 1,
+    'quantity': 2
+}

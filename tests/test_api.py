@@ -10,7 +10,7 @@ from api import create_app
 from . import ADMIN_USER, LOGIN_ADMIN, USER, PRODUCT, EMPTY_PRODUCT, PRODUCT_LIST
 
 
-class TestingApi(unittest.TestCase):
+class TestApi(unittest.TestCase):
     """
     class that tests routes
     """

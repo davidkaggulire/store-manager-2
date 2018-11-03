@@ -13,17 +13,6 @@ class TestUsers(TestBase):
     """
     class that tests routes
     """
-  
-    def setUp(self):
-        """
-        setting up test data 
-        """ 
-        app = create_app("testing")
-        self.client = app.test_client()
-        self.db = Database()
-        self.db.create_products_table()
-        self.db.create_sales_table()
-        self.db.create_user_table()
 
     def test_creating_admin(self):
         """test method to post product if admin"""
@@ -45,10 +34,3 @@ class TestUsers(TestBase):
         data=json.dumps(USER))
         self.assertEqual(response.status_code, 401)
 
-    def tearDown(self):
-       self.db.drop_table_products()
-       self.db.drop_table_sales()
-       self.db.drop_table_user()
-if __name__ == '__main__':
-    unittest.main()
-    

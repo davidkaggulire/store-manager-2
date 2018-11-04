@@ -3,8 +3,8 @@
 import datetime
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity)
-from api.product_actions import ProductActions
-from api.sales_actions import Sales_Controller
+from api.controllers.product_controllers import ProductController
+from api.controllers.sales_controllers import SalesController
 from api.validators import Validators
 
 sales = Blueprint('sales', __name__)
@@ -36,7 +36,7 @@ def post_sale():
             if valid_quantity:
                 return valid_quantity
 
-            check_product = ProductActions.get_single_product(product_id)
+            check_product = ProductController.get_single_product(product_id)
             
             if check_product:
                 db_quantity = int(check_product[4])
@@ -48,8 +48,8 @@ def post_sale():
                 balance_quantity = db_quantity - quantity
                 total = check_product[3] * quantity
                 product_name = check_product[1]
-                Sales_Controller.create_sale(product_name, quantity, total, user_identity['id'], product_id )
-                ProductActions.update_on_sale(product_id, balance_quantity)
+                SalesController.create_sale(product_name, quantity, total, user_identity['id'], product_id )
+                ProductController.update_on_sale(product_id, balance_quantity)
                 message = {
                     "message": "Sale made successfully",
                     "sale_receipt": {
@@ -75,7 +75,7 @@ def get_all_sales():
 
     user_identity = get_jwt_identity()
     if user_identity['role'] == 'admin':
-        all_sales = Sales_Controller.get_sales()
+        all_sales = SalesController.get_sales()
         if  len(all_sales) == 0:
             return jsonify({"message": "no sales have been made yet"}), 200
         if all_sales:
@@ -93,7 +93,7 @@ def get_all_sales():
 @sales.route('/api/v2/sales/<int:sale_id>')
 def get_sale(sale_id):
     """route to return a single sale"""
-    single_sale = Sales_Controller.get_single_sale(sale_id)
+    single_sale = SalesController.get_single_sale(sale_id)
     if single_sale:
         message = {
             "message": "Sale retrieved",

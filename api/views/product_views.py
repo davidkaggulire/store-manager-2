@@ -2,7 +2,7 @@
 
 from flask import jsonify, request, make_response, Blueprint
 from api.models.products import Products
-from api.product_actions import ProductActions
+from api.controllers.product_controllers import ProductController
 from api.validators import Validators
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
 
@@ -59,14 +59,14 @@ def post_products():
             if valid_minimum:
                 return valid_minimum
 
-            product_in_store = ProductActions.check_product_name(product.product_name)
+            product_in_store = ProductController.check_product_name(product.product_name)
             if product_in_store:
                 message = {
                     "message": "Product {} already exists.".format(product_name)
                 }
                 return jsonify(message), 200
             # save product in database
-            save_product = ProductActions.create_product(product_name, category, price, quantity, minimum_quantity)
+            save_product = ProductController.create_product(product_name, category, price, quantity, minimum_quantity)
             if save_product:
                 message = {
                     "message": "Product created successfully",
@@ -88,7 +88,7 @@ def post_products():
 @product.route('/api/v2/products')
 def get_products():
     """route to return all products"""
-    fetch_all = ProductActions()
+    fetch_all = ProductController()
     get_all_products = fetch_all.get_products()
     if get_all_products:
         message = {
@@ -102,7 +102,7 @@ def get_products():
 @product.route('/api/v2/products/<int:product_id>')
 def get_product(product_id):
     """route to get single product"""
-    fetch_one_product = ProductActions().get_single_product(product_id)
+    fetch_one_product = ProductController().get_single_product(product_id)
     if fetch_one_product:
         message = {
             "message": "Product retrieved successfully",
@@ -179,9 +179,9 @@ def update_product(product_id):
                 return valid_quantity
             if valid_minimum:
                 return valid_minimum
-            get_product = ProductActions.get_single_product(product_id)
+            get_product = ProductController.get_single_product(product_id)
             if get_product:
-                update = ProductActions.edit_product(product_id, product_name, category, price, quantity, minimum_quantity)
+                update = ProductController.edit_product(product_id, product_name, category, price, quantity, minimum_quantity)
                 if update:
                     message = {
                         "message": "product edited",
@@ -211,9 +211,9 @@ def put_on_wrong_route():
 @product.route('/api/v2/products/<int:product_id>', methods=['DELETE'])
 def delete(product_id):
     """route to delete product"""
-    get_product = ProductActions.get_single_product(product_id)
+    get_product = ProductController.get_single_product(product_id)
     if get_product:
-        deleted_product = ProductActions.delete_product(product_id)
+        deleted_product = ProductController.delete_product(product_id)
         if deleted_product:
             return jsonify({"message": "product deleted successfully"}), 200
     return jsonify({"error": "product not found"}), 404

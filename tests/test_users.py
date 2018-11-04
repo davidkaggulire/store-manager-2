@@ -22,9 +22,18 @@ class TestUsers(TestBase):
 
     def test_creating_user(self):
         """test method to post product if attendant"""
-        response = self.client.post('/api/v2/auth/signup', content_type='application/json',
-        data=json.dumps(USER))
-        self.assertEqual(response.status_code, 401)
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
+        data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json',
+        data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user']
+        print(token)
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER),
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer "+ token['auth_token']})
+        msg = json.loads(response.data.decode())
+        self.assertIn('User created successfully', msg['message'])
+        self.assertEqual(response.status_code, 201)
 
     def test_login_user(self):
         """test method to post product if attendant"""

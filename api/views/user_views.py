@@ -4,7 +4,7 @@ import datetime
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity)
 from api.models.user import User
-from api.user_operations import UserOperations
+from api.controllers.user_controller import UserController
 from api.validators import Validators
 
 userpage = Blueprint('userpage', __name__)
@@ -49,14 +49,14 @@ def signup():
                 return valid_password
 
             user = User(firstname, lastname, username, password)
-            operations = UserOperations.check_username(user.username)
+            operations = UserController.check_username(user.username)
             if operations:
                 error = {
                     "error": "Username {} already exists. Choose another".format(user.username)
                 }
                 return jsonify(error), 200
             # calling method to create user
-            UserOperations.create_user(firstname, lastname, username, password)
+            UserController.create_user(firstname, lastname, username, password)
             message = {
                 "message": "User created successfully",
                 "user": {
@@ -90,8 +90,8 @@ def login():
                 return valid_user
         if valid_pass:
             return valid_pass
-        valid_username = UserOperations.check_username(username)
-        valid_password = UserOperations.check_password(password, username)
+        valid_username = UserController.check_username(username)
+        valid_password = UserController.check_password(password, username)
         if valid_username and valid_password:
             identity = dict(username=valid_username.get('username'), role=valid_username.get('role'), id=valid_username.get('user_id'))
             auth_token = create_access_token(identity=identity, expires_delta=expires)
@@ -146,14 +146,14 @@ def create_admin():
         if valid_password:
             return valid_password
         user = User(firstname=firstname, lastname=lastname, username=username, password=password)
-        operations = UserOperations.check_username(user.username)
+        operations = UserController.check_username(user.username)
         if operations:
             error = {
                 "error": "Username {} already exists.".format(user.username)
             }
             return jsonify(error), 200
         # calling method to create admin user
-        UserOperations().create_admin(firstname, lastname, username, password)
+        UserController.create_admin(firstname, lastname, username, password)
         message = {
             "message": "User created successfully",
             "user": {

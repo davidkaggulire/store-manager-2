@@ -72,7 +72,6 @@ class TestApi(unittest.TestCase):
         json=dict(firstname='don', lastname='david', username='don', password='don1234!'))
         self.assertIn('message', str(response.data))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', json=dict(username='don', password='don1234!'))
-        print(response.data)
         msg = json.loads(response.data.decode("utf-8"))
         token = msg["user"]
         response = self.client.post('/api/v2/products', data=json.dumps(PRODUCT),

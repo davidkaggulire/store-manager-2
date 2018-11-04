@@ -5,7 +5,7 @@ module test
 import unittest
 import json
 from api.models.db import Database
-from api.user_operations import UserOperations
+from api.controllers.user_controller import UserController
 from api import create_app
 from . import ADMIN_USER, LOGIN_ADMIN, USER, PRODUCT, EMPTY_PRODUCT, PRODUCT_LIST, SALE
 
@@ -25,7 +25,7 @@ class TestApi(unittest.TestCase):
         self.db.create_products_table()
         self.db.create_sales_table()
         self.db.create_user_table()
-        self.admin_user = UserOperations.create_admin('david', 'kaggulire', 'dkaggs', 'dkaggs123!')
+        self.admin_user = UserController.create_admin('david', 'kaggulire', 'dkaggs', 'dkaggs123!')
 
 
     
@@ -65,21 +65,23 @@ class TestApi(unittest.TestCase):
         self.assertIn("Missing Authorization Header", msg['msg'])
         self.assertEqual(response.status_code, 401)
 
-    # def test_post_product_if_admin(self):
-    #     """test method to post product if admin"""
-    #     response = self.client.post('/api/v2/auth/admin', content_type='application/json',
-    #     json=dict(ADMIN_USER))
-    #     self.assertEqual(response.status_code, 201)
-    #     print(response)
-    #     response = self.client.post('/api/v2/login', content_type='application/json', json=dict(username="don", password="don1234!"))
-    #     print(response)
-    #     msg = json.loads(response.data.decode())
-    #     token = msg['auth_token']
-    #     print(msg)
-    #     print(token)
-        # response = self.client.post('/api/v2/products', data=json.dumps(PRODUCT),
-        # headers = {'content_type': 'application/json', 'Authorization': "Bearer "+ token})
+    def test_post_product_if_admin(self):
+        """test method to post product if admin"""
         
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
+        json=dict(firstname='don', lastname='david', username='don', password='don1234!'))
+        self.assertIn('message', str(response.data))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', json=dict(username='don', password='don1234!'))
+        print(response.data)
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg["user"]
+        response = self.client.post('/api/v2/products', data=json.dumps(PRODUCT),
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer "+ token['auth_token']})
+        msg = json.loads(response.data.decode())
+        self.assertIn('Product created successfully', msg["message"] )
+        self.assertEqual(response.status_code, 201)
+
+
     def test_post_product_with_missing_field(self):
         response = self.client.post('/api/v2/products', json=dict(product_name='book'),
         content_type='application/json')
@@ -227,15 +229,15 @@ class TestApi(unittest.TestCase):
 #         self.assertEqual(response.status_code, 404)
 #         self.assertIn('Product not in store', str(response.data))
         
-    # def test_get_all_sales(self):
-    #     """test method to get all available sales"""
-    #     self.client.post('/api/v2/products', data=json.dumps(PRODUCT_LIST[0]),
-    #     content_type="application/json")
-    #     self.client.post('/api/v2/products', data=json.dumps(PRODUCT_LIST[1]),
-    #     content_type="application/json")
-    #     response = self.client.get('/api/v2/sales')
-    #     self.assertEqual(response.status_code, 200)
-    #     self.assertIn('no sales have been made yet', str(response.data))
+    def test_get_all_sales(self):
+        """test method to get all available sales"""
+        self.client.post('/api/v2/products', data=json.dumps(PRODUCT_LIST[0]),
+        content_type="application/json")
+        self.client.post('/api/v2/products', data=json.dumps(PRODUCT_LIST[1]),
+        content_type="application/json")
+        response = self.client.get('/api/v2/sales')
+        self.assertEqual(response.status_code, 401)
+        # self.assertIn('no sales have been made yet', str(response.data))
 
     def test_get_specific_sale(self):
         """test method to get specific sale"""

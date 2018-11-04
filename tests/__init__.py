@@ -20,8 +20,8 @@ LOGIN_USER = {
 }
 
 LOGIN_ADMIN = {
-    "username":"dkaggs",
-	"password": "dkaggs123!"
+    "username":"don",
+	"password": "don1234!"
 }
 
 

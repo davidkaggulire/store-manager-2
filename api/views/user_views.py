@@ -3,11 +3,11 @@
 import datetime
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity)
-from api.models.user import User
 from api.controllers.user_controller import UserController
 from api.validators import Validators
 
 userpage = Blueprint('userpage', __name__)
+
 
 @userpage.route('/api/v2/auth/signup', methods=['POST'])
 @jwt_required

@@ -14,29 +14,24 @@ class TestApi(unittest.TestCase):
     """
     class that tests routes
     """
-  
     def setUp(self):
         """
-        setting up test data 
-        """ 
+        setting up test data
+        """
         app = create_app("testing")
         self.client = app.test_client()
         self.db = Database()
         self.db.create_products_table()
         self.db.create_sales_table()
         self.db.create_user_table()
-        self.admin_user = UserController.create_admin('david', 'kaggulire', 'dkaggs', 'dkaggs123!')
+        user = UserController()
+        self.admin_user = user.register_admin('david', 'kaggulire', 'dkaggs', 'dkaggs123!')
 
-
-    
 # test for products
     def test_get_unexistent_product(self):
         """test method to get a product that doesnot exist"""
-        self.client.post('/api/v2/products', json=dict(product_name="guitarbag", \
-        price=30000, category="bags", quantity=10, minimum_quantity=3, content_type='application/json'))
-        product_id = {
-            "id":9
-        }
+        self.client.post('/api/v2/products', json=dict(product_name="guitarbag", price=30000, category="bags", quantity=10, minimum_quantity=3, content_type='application/json'))
+        product_id = {"id": 9}
         response = self.client.get('/api/v2/products/{}'.format(product_id['id']))
         self.assertEqual(response.status_code, 404)
         self.assertIn('Product not found', str(response.data))

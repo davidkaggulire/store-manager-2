@@ -23,10 +23,10 @@ class Database:
 
         except Exception:
             print("Database connection failed")
-    
+
     def create_user_table(self):
         """method to create user table"""
-        user_table =("CREATE TABLE IF NOT EXISTS users"
+        user_table = ("CREATE TABLE IF NOT EXISTS users"
                         "("
                         "user_id serial PRIMARY KEY,"
                         "firstname VARCHAR (50) NOT NULL,"
@@ -71,16 +71,14 @@ class Database:
         method to register a user
         """
         self.cur.execute("INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
-        %s, %s, %s, %s, 'admin')", (firstname, lastname, username, 
-        generate_password_hash(password),))
+        %s, %s, %s, %s, 'admin')", (firstname, lastname, username, generate_password_hash(password),))
 
     def create_user(self, firstname, lastname, username, password):
         """
         method to register a user
         """
         self.cur.execute("INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
-        %s, %s, %s, %s, 'attendant')", (firstname, lastname, username, 
-        generate_password_hash(password),))
+        %s, %s, %s, %s, 'attendant')", (firstname, lastname, username, generate_password_hash(password),))
 
     def check_username(self, username):
         """
@@ -92,7 +90,7 @@ class Database:
     def check_password(self, password, username):
         """
         function to check user password
-        """ 
+        """
         self.cur.execute("SELECT password from users WHERE username=%s", (username,))
         data = self.cur.fetchall()
         for d in data:
@@ -108,7 +106,7 @@ class Database:
 
     def get_products(self):
         """
-        method that returns all products 
+        method that returns all products
         """
         self.dict_cursor.execute("SELECT * FROM products")
         return self.dict_cursor.fetchall()
@@ -117,7 +115,7 @@ class Database:
         """
         method to return a single product
         """
-        self.cur.execute("SELECT * FROM products WHERE product_id=%s",(product_id,))
+        self.cur.execute("SELECT * FROM products WHERE product_id=%s", (product_id,))
         return self.cur.fetchone()
 
     def update_product(self, product_id, product_name, category, price, quantity, minimum_quantity):
@@ -127,11 +125,17 @@ class Database:
         self.dict_cursor.execute("UPDATE products SET product_name=%s, category=%s, price=%s, quantity=%s,\
         minimum_quantity=%s WHERE product_id=%s", (product_name, category, price, quantity, minimum_quantity, product_id,))
 
+    def update_on_sale(self, product_id, quantity):
+        """
+        method to update on sale (it takes on quantity only)
+        """
+        self.dict_cursor.execute("UPDATE products SET quantity=%s WHERE product_id=%s", (quantity, product_id,))
+
     def check_product_name(self, product_name):
         """
         method to check if product_name exists
         """
-        self.dict_cursor.execute("SELECT * from products WHERE product_name=%s",(product_name,))
+        self.dict_cursor.execute("SELECT * from products WHERE product_name=%s", (product_name,))
         return self.dict_cursor.fetchone()
 
     def delete_product(self, product_id):
@@ -145,7 +149,7 @@ class Database:
         method to register a user
         """
         self.cur.execute("INSERT INTO sales(product_name, quantity, total, attendant_id, product_id) VALUES(\
-        %s, %s, %s, %s, %s)",(product_name, quantity, total, attendant_id, product_id))
+        %s, %s, %s, %s, %s)", (product_name, quantity, total, attendant_id, product_id))
 
     def get_sales(self):
         """"
@@ -158,7 +162,7 @@ class Database:
         """
         method to return single sale
         """
-        self.cur.execute("SELECT * FROM sales WHERE sale_id=%s",(sale_id,))
+        self.cur.execute("SELECT * FROM sales WHERE sale_id=%s", (sale_id,))
         return self.cur.fetchone()
 
     def drop_table_user(self):

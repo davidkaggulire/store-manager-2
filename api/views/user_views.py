@@ -65,7 +65,7 @@ def signup():
         except Exception:
             return jsonify({"error": "wrong input data"}), 400
     else:
-        return jsonify({"error": "Please sign in as admin"}), 401
+        return jsonify({"message": "Please sign in as admin"}), 401
 
 
 @userpage.route('/api/v2/auth/login', methods=['POST'])

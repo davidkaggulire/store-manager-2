@@ -4,7 +4,9 @@ import datetime
 
 
 class Products:
-    """creates a product"""
+    """
+    creates a product
+    """
     def __init__(self, product_name, category, price, quantity, minimum_quantity):
         """
         initializing attributes for class

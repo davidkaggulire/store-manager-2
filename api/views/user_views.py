@@ -51,10 +51,7 @@ def signup():
             user = UserController()
             operations = user.correct_username(username)
             if operations:
-                error = {
-                    "error": "Username {} already exists. Choose another".format(username)
-                }
-                return jsonify(error), 200
+                return jsonify({"message": "Username {} already exists. Choose another".format(username)}), 200
             # calling method to create user
             user.register_user(firstname, lastname, username, password)
             message = {
@@ -106,10 +103,7 @@ def login():
             }
             return jsonify(message), 201
         else:
-            error = {
-                "error": "Wrong username or password, try again"
-            }
-            return jsonify(error), 401
+            return jsonify({"message": "Wrong username or password, try again"}), 401
     except Exception:
         return jsonify({"error": "wrong input data"}), 400
 
@@ -151,10 +145,7 @@ def create_admin():
         user = UserController()
         operations = user.correct_username(username)
         if operations:
-            error = {
-                "error": "Username {} already exists.".format(username)
-            }
-            return jsonify(error), 200
+            return jsonify({"message": "Username {} already exists.".format(username)}), 200
         # calling method to create admin user
         user.register_admin(firstname, lastname, username, password)
         message = {

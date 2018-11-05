@@ -19,14 +19,14 @@ class UserController:
         method to register a user
         """
         new_user = User(firstname, lastname, username, password)
-        self.db_con.create_user(firstname=new_user.firstname, lastname=new_user.lastname, username=new_user.username, password=new_user.password)
+        return self.db_con.create_user(firstname=new_user.firstname, lastname=new_user.lastname, username=new_user.username, password=new_user.password)
 
     def register_admin(self, firstname, lastname, username, password):
         """
         method to register an admin
         """
         new_admin = User(firstname, lastname, username, password)
-        self.db_con.create_admin(firstname=new_admin.firstname, lastname=new_admin.lastname, username=new_admin.username, password=new_admin.password)
+        return self.db_con.create_admin(firstname=new_admin.firstname, lastname=new_admin.lastname, username=new_admin.username, password=new_admin.password)
 
     def correct_username(self, username):
         """

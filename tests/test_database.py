@@ -63,7 +63,7 @@ class TestDatabase(unittest.TestCase):
         get_one = self.db.get_single_product(1)
         delete = self.db.delete_product(1)
         find_product = self.db.check_product_name('book')
-        self.assertIs(delete, True)
+        self.assertIs(delete, None)
 
     def test_make_sale(self):
         """test for checking a sale"""

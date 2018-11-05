@@ -1,7 +1,6 @@
 """product_views.py"""
 
 from flask import jsonify, request, make_response, Blueprint
-from api.models.products import Products
 from api.controllers.product_controllers import ProductController
 from api.validators import Validators
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
@@ -42,7 +41,6 @@ def post_products():
             if minimum_quantity == "":
                 return jsonify({"error": "Minimum Quantity missing"}), 400
 
-            product = Products(product_name, category, price, quantity, minimum_quantity)
             valid_name = Validators.validate_input_string(product_name)
             valid_category = Validators.validate_input_string(category)
             valid_price = Validators.validate_input_number(price)
@@ -59,26 +57,26 @@ def post_products():
             if valid_minimum:
                 return valid_minimum
 
-            product_in_store = ProductController.check_product_name(product.product_name)
+            product = ProductController()
+            product_in_store = product.check_product_name(product_name)
             if product_in_store:
                 message = {
                     "message": "Product {} already exists.".format(product_name)
                 }
                 return jsonify(message), 200
             # save product in database
-            save_product = ProductController.create_product(product_name, category, price, quantity, minimum_quantity)
-            if save_product:
-                message = {
-                    "message": "Product created successfully",
-                    "product": {
-                        "product_name": product_name,
-                        "category": category,
-                        "price": price,
-                        "quantity": quantity,
-                        "minimum_quantity": minimum_quantity,
-                    }
+            product.register_product(product_name, category, price, quantity, minimum_quantity)
+            message = {
+                "message": "Product created successfully",
+                "product": {
+                    "product_name": product_name,
+                    "category": category,
+                    "price": price,
+                    "quantity": quantity,
+                    "minimum_quantity": minimum_quantity,
                 }
-                return jsonify(message), 201
+            }
+            return jsonify(message), 201
         except Exception:
             return jsonify({'error': 'Please input right data format'}), 400
     else:
@@ -97,12 +95,14 @@ def get_products():
         }
         return jsonify(message), 200
     else:
-        return jsonify({"message": "No products found" }), 404
+        return jsonify({"message": "No products found"}), 404
+
 
 @product.route('/api/v2/products/<int:product_id>')
 def get_product(product_id):
     """route to get single product"""
-    fetch_one_product = ProductController().get_single_product(product_id)
+    product = ProductController()
+    fetch_one_product = product.get_single_product(product_id)
     if fetch_one_product:
         message = {
             "message": "Product retrieved successfully",
@@ -179,21 +179,22 @@ def update_product(product_id):
                 return valid_quantity
             if valid_minimum:
                 return valid_minimum
-            get_product = ProductController.get_single_product(product_id)
+
+            product = ProductController()
+            get_product = product.get_single_product(product_id)
             if get_product:
-                update = ProductController.edit_product(product_id, product_name, category, price, quantity, minimum_quantity)
-                if update:
-                    message = {
-                        "message": "product edited",
-                        "updated product": {
-                            "product_name": product_name,
-                            "category": "{}".format(category),
-                            "price": "{}".format(price),
-                            "quantity": "{}".format(quantity),
-                            "minimum_quantity": "{}".format(minimum_quantity),
-                        }
+                product.edit_product(product_id, product_name, category, price, quantity, minimum_quantity)
+                message = {
+                    "message": "product edited",
+                    "updated product": {
+                        "product_name": product_name,
+                        "category": "{}".format(category),
+                        "price": "{}".format(price),
+                        "quantity": "{}".format(quantity),
+                        "minimum_quantity": "{}".format(minimum_quantity),
                     }
-                    return jsonify(message), 201
+                }
+                return jsonify(message), 201
             else:
                 return jsonify({"error": "Product not found"}), 404
         except Exception:
@@ -211,9 +212,9 @@ def put_on_wrong_route():
 @product.route('/api/v2/products/<int:product_id>', methods=['DELETE'])
 def delete(product_id):
     """route to delete product"""
-    get_product = ProductController.get_single_product(product_id)
+    product = ProductController()
+    get_product = product.get_single_product(product_id)
     if get_product:
-        deleted_product = ProductController.delete_product(product_id)
-        if deleted_product:
-            return jsonify({"message": "product deleted successfully"}), 200
+        product.delete_product(product_id)
+        return jsonify({"message": "product {} deleted successfully".format(str(product_id))}), 200
     return jsonify({"error": "product not found"}), 404

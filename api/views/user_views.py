@@ -48,15 +48,15 @@ def signup():
             if valid_password:
                 return valid_password
 
-            user = User(firstname, lastname, username, password)
-            operations = UserController.check_username(user.username)
+            user = UserController()
+            operations = user.correct_username(username)
             if operations:
                 error = {
-                    "error": "Username {} already exists. Choose another".format(user.username)
+                    "error": "Username {} already exists. Choose another".format(username)
                 }
                 return jsonify(error), 200
             # calling method to create user
-            UserController.create_user(firstname, lastname, username, password)
+            user.register_user(firstname, lastname, username, password)
             message = {
                 "message": "User created successfully",
                 "user": {
@@ -90,8 +90,10 @@ def login():
                 return valid_user
         if valid_pass:
             return valid_pass
-        valid_username = UserController.check_username(username)
-        valid_password = UserController.check_password(password, username)
+
+        user = UserController()
+        valid_username = user.correct_username(username)
+        valid_password = user.correct_password(password, username)
         if valid_username and valid_password:
             identity = dict(username=valid_username.get('username'), role=valid_username.get('role'), id=valid_username.get('user_id'))
             auth_token = create_access_token(identity=identity, expires_delta=expires)
@@ -145,15 +147,16 @@ def create_admin():
             return valid_username
         if valid_password:
             return valid_password
-        user = User(firstname=firstname, lastname=lastname, username=username, password=password)
-        operations = UserController.check_username(user.username)
+
+        user = UserController()
+        operations = user.correct_username(username)
         if operations:
             error = {
-                "error": "Username {} already exists.".format(user.username)
+                "error": "Username {} already exists.".format(username)
             }
             return jsonify(error), 200
         # calling method to create admin user
-        UserController.create_admin(firstname, lastname, username, password)
+        user.register_admin(firstname, lastname, username, password)
         message = {
             "message": "User created successfully",
             "user": {

@@ -36,7 +36,6 @@ class Database:
                         "role VARCHAR (50) NOT NULL"
                         ")")
         self.cur.execute(user_table)
-        return True
 
     def create_products_table(self):
         """method to create products table"""
@@ -52,7 +51,6 @@ class Database:
                     ")")
 
         self.cur.execute(products_table)
-        return True
 
     def create_sales_table(self):
         """method to create sales table"""
@@ -67,7 +65,6 @@ class Database:
                         "date TIMESTAMP DEFAULT NOW()"
                         ")")
         self.cur.execute(sales_table)
-        return True
 
     def create_admin(self, firstname, lastname, username, password):
         """
@@ -76,7 +73,6 @@ class Database:
         self.cur.execute("INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
         %s, %s, %s, %s, 'admin')", (firstname, lastname, username, 
         generate_password_hash(password),))
-        return True
 
     def create_user(self, firstname, lastname, username, password):
         """
@@ -85,7 +81,6 @@ class Database:
         self.cur.execute("INSERT INTO users(firstname, lastname, username, password, role) VALUES(\
         %s, %s, %s, %s, 'attendant')", (firstname, lastname, username, 
         generate_password_hash(password),))
-        return True
 
     def check_username(self, username):
         """
@@ -94,13 +89,22 @@ class Database:
         self.dict_cursor.execute("SELECT * from users WHERE username=%s", (username,))
         return self.dict_cursor.fetchone()
 
+    def check_password(self, password, username):
+        """
+        function to check user password
+        """ 
+        self.cur.execute("SELECT password from users WHERE username=%s", (username,))
+        data = self.cur.fetchall()
+        for d in data:
+            check = check_password_hash(d[0], password)
+            return check
+
     def create_product(self, product_name, category, price, quantity, minimum_quantity):
         """
         method to create products
         """
         self.cur.execute("INSERT INTO products(product_name, category, price, quantity, minimum_quantity) VALUES(\
         %s, %s, %s, %s, %s)", (product_name, category, price, quantity, minimum_quantity,))
-        return True
 
     def get_products(self):
         """
@@ -122,7 +126,6 @@ class Database:
         """
         self.dict_cursor.execute("UPDATE products SET product_name=%s, category=%s, price=%s, quantity=%s,\
         minimum_quantity=%s WHERE product_id=%s", (product_name, category, price, quantity, minimum_quantity, product_id,))
-        return True
 
     def check_product_name(self, product_name):
         """
@@ -136,7 +139,6 @@ class Database:
         method to delete a product
         """
         self.cur.execute("DELETE from products WHERE product_id=%s", (product_id,))
-        return True
 
     def create_sale(self, product_name, quantity, total, attendant_id, product_id):
         """
@@ -144,7 +146,6 @@ class Database:
         """
         self.cur.execute("INSERT INTO sales(product_name, quantity, total, attendant_id, product_id) VALUES(\
         %s, %s, %s, %s, %s)",(product_name, quantity, total, attendant_id, product_id))
-        return True
 
     def get_sales(self):
         """"

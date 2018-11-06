@@ -22,8 +22,6 @@ def post_sale():
             product_id = form_data['product_id']
             quantity = form_data['quantity']
 
-            if not product_id and not quantity:
-                return jsonify({"error": "wrong data format"}), 400
             if product_id == "":
                 return jsonify({"error": "product id missing"}), 400
             if quantity == "":

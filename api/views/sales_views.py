@@ -2,7 +2,7 @@
 
 import datetime
 from flask import jsonify, request, Blueprint
-from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity)
+from flask_jwt_extended import (jwt_required, get_jwt_identity)
 from api.controllers.product_controllers import ProductController
 from api.controllers.sales_controllers import SalesController
 from api.validators import Validators
@@ -36,8 +36,10 @@ def post_sale():
             if valid_quantity:
                 return valid_quantity
 
-            check_product = ProductController.get_single_product(product_id)
-            
+            product = ProductController()
+            sale = SalesController()
+            check_product = product.get_single_product(product_id)
+
             if check_product:
                 db_quantity = int(check_product[4])
                 if quantity > db_quantity:
@@ -48,8 +50,8 @@ def post_sale():
                 balance_quantity = db_quantity - quantity
                 total = check_product[3] * quantity
                 product_name = check_product[1]
-                SalesController.create_sale(product_name, quantity, total, user_identity['id'], product_id )
-                ProductController.update_on_sale(product_id, balance_quantity)
+                sale.create_sale(product_name, quantity, total, user_identity['id'], product_id)
+                sale.update_on_sale(product_id, balance_quantity)
                 message = {
                     "message": "Sale made successfully",
                     "sale_receipt": {
@@ -68,15 +70,16 @@ def post_sale():
     else:
         return jsonify({"message": "Please sign in as attendant"}), 401
 
+
 @sales.route('/api/v2/sales')
 @jwt_required
 def get_all_sales():
     """route to return all sales"""
-
+    sale = SalesController()
     user_identity = get_jwt_identity()
     if user_identity['role'] == 'admin':
-        all_sales = SalesController.get_sales()
-        if  len(all_sales) == 0:
+        all_sales = sale.get_sales()
+        if len(all_sales) == 0:
             return jsonify({"message": "no sales have been made yet"}), 200
         if all_sales:
             message = {
@@ -93,7 +96,8 @@ def get_all_sales():
 @sales.route('/api/v2/sales/<int:sale_id>')
 def get_sale(sale_id):
     """route to return a single sale"""
-    single_sale = SalesController.get_single_sale(sale_id)
+    sale = SalesController()
+    single_sale = sale.get_single_sale(sale_id)
     if single_sale:
         message = {
             "message": "Sale retrieved",
@@ -111,10 +115,12 @@ def get_sale(sale_id):
     else:
         return jsonify({"message": "Sale not found"}), 404
 
+
 @sales.route('/api/v2/sales/')
 def get_wrong_sale():
     """route to wrong sale"""
     return jsonify({"error": "Unallowed route"}), 400
+
 
 @sales.route('/api/v2/sales/<int:sale_id>', methods=['POST'])
 def post_sale_with_id(sale_id):

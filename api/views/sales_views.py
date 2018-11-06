@@ -84,9 +84,7 @@ def get_all_sales():
         if all_sales:
             message = {
                 "message": "All sales retrieved",
-                "sales": {
-                    "all_sales": all_sales
-                }
+                "sales": all_sales
             }
             return jsonify(message), 200
     else:

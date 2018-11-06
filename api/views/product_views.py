@@ -196,11 +196,11 @@ def update_product(product_id):
                 }
                 return jsonify(message), 201
             else:
-                return jsonify({"error": "Product not found"}), 404
+                return jsonify({"message": "Product not found"}), 404
         except Exception:
             return jsonify({"error": "Wrong data format"}), 400
     else:
-        return jsonify({"error": "Please sign in as admin"}), 401
+        return jsonify({"message": "Please sign in as admin"}), 401
 
 
 @product.route('/api/v2/products', methods=['PUT'])
@@ -217,4 +217,4 @@ def delete(product_id):
     if get_product:
         product.delete_product(product_id)
         return jsonify({"message": "product {} deleted successfully".format(str(product_id))}), 200
-    return jsonify({"error": "product not found"}), 404
+    return jsonify({"message": "product not found"}), 404

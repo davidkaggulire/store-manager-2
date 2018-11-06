@@ -35,12 +35,6 @@ class ProductController:
         """
         self.db_con.update_product(product_id, product_name, category, price, quantity, minimum_quantity)
 
-    def update_on_sale(self, product_id, quantity):
-        """
-        method to update on sale (it takes on quantity only)
-        """
-        return self.db_con.update_on_sale(product_id, quantity)
-
     def check_product_name(self, product_name):
         """
         method to check if product_name exists

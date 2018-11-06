@@ -14,6 +14,38 @@ USER = {
 	"password": "dkaggs123!"
 }
 
+INVALID_USER = {
+	"lastname": "kaggulire",
+	"username":"dkaggs",
+	"password": "dkaggs123!"
+}
+
+USERS = [{
+        "firstname": "",
+        "lastname": "kaggulire",
+        "username":"dkaggs",
+        "password": "dkaggs123!"
+    },
+    {
+        "firstname": "david",
+        "lastname": "",
+        "username":"dkaggs",
+        "password": "dkaggs123!"
+    },
+    {
+        "firstname": "david",
+        "lastname": "kaggulire",
+        "username":"",
+        "password": "dkaggs123!"
+    },
+    {
+        "firstname": "david",
+        "lastname": "kaggulire",
+        "username":"dkaggs",
+        "password": ""
+    }
+]
+
 LOGIN_USER = {
    "username":"dkaggs",
 	"password": "dkaggs123!"

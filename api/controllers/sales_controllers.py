@@ -13,13 +13,11 @@ class SalesController:
         """create initial db connection"""
         self.db_con = Database()
 
-
     def create_sale(self, product_name, quantity, total, attendant_id, product_id):
         """
         method to register a user
         """
-        new_sale = Sales(product_id = product_id, total = total)
-
+        new_sale = Sales(product_id=product_id, total=total)
         return self.db_con.create_sale(product_name, quantity, new_sale.total, attendant_id, new_sale.product_id)
 
     def get_sales(self):

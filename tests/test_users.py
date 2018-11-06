@@ -208,8 +208,8 @@ class TestUsers(TestBase):
         self.assertIn('wrong input data', str(response.data))
         self.assertEqual(response.status_code, 400)
 
-    def test_signup_firstname(self):
-        """test method to check firstname"""
+    def test_signup_firstname_with_digits(self):
+        """test method to check firstname for digits"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
@@ -219,8 +219,30 @@ class TestUsers(TestBase):
         self.assertIn('input should not have digits but letters', str(response.data))
         self.assertEqual(response.status_code, 400) 
     
-    def test_signup_lastname(self):
-        """test method to check lastname"""
+    def test_signup_firstname_with_symbols(self):
+        """test method to check firstname for symbols"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user'] 
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave**', lastname='david', username='david', password='david123!'), 
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        self.assertIn('input should contain alphabet letters only', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_signup_firstname_with_spaces(self):
+        """test method to check firstname for spaces"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user'] 
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave   ', lastname='david', username='david', password='david123!'), 
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        self.assertIn('input should not have empty spaces', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_signup_lastname_with_digits(self):
+        """test method to check lastname for digits"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
@@ -230,7 +252,29 @@ class TestUsers(TestBase):
         self.assertIn('input should not have digits but letters', str(response.data))
         self.assertEqual(response.status_code, 400)
 
-    def test_signup_username(self):
+    def test_signup_lastname_with_symbols(self):
+        """test method to check lastname for symbols"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user'] 
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david**', username='david', password='david123!'), 
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        self.assertIn('input should contain alphabet letters only', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_signup_lastname_with_spaces(self):
+        """test method to check lastname for spaces"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user'] 
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david  ', username='david', password='david123!'), 
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        self.assertIn('input should not have empty spaces', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_signup_username_with_digits(self):
         """test method to check lastname"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
@@ -241,8 +285,30 @@ class TestUsers(TestBase):
         self.assertIn('input should not have digits but letters', str(response.data))
         self.assertEqual(response.status_code, 400)
 
-    def test_signup_password(self):
-        """test method to check lastname"""
+    def test_signup_username_with_symbols(self):
+        """test method to check username for symbols"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user'] 
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david**', password='david123!'), 
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        self.assertIn('input should contain alphabet letters only', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_signup_username_with_spaces(self):
+        """test method to check username for spaces"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user'] 
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david   ', password='david123!'), 
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        self.assertIn('input should not have empty spaces', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_signup_password_for_symbols(self):
+        """test method to check password for symbols"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
@@ -250,6 +316,28 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david123'), 
         headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('password should contain alphanumeric characters', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_signup_password_for_length(self):
+        """test method to check password length"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user'] 
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david'), 
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        self.assertIn('password length should be equal or greater than 6', str(response.data))
+        self.assertEqual(response.status_code, 400)
+
+    def test_signup_password_for_digit(self):
+        """test method to check password length"""
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
+        response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
+        msg = json.loads(response.data.decode())
+        token = msg['user'] 
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david***'), 
+        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        self.assertIn('password should contain a digit', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_signup_when_attendant(self):

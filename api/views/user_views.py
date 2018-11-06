@@ -19,8 +19,6 @@ def signup():
     if user_identity['role'] == 'admin':
         try:
             form_data = request.get_json(force=True)
-            if not form_data:
-                return jsonify({'message': "Missing field in request"}), 400
             firstname = form_data['firstname']
             lastname = form_data['lastname']
             username = form_data['username']
@@ -51,7 +49,7 @@ def signup():
             user = UserController()
             operations = user.correct_username(username)
             if operations:
-                return jsonify({"message": "Username {} already exists. Choose another".format(username)}), 200
+                return jsonify({"message": "Username {} already exists. Choose another".format(username)}), 201
             # calling method to create user
             user.register_user(firstname, lastname, username, password)
             message = {
@@ -145,7 +143,7 @@ def create_admin():
         user = UserController()
         operations = user.correct_username(username)
         if operations:
-            return jsonify({"message": "Username {} already exists.".format(username)}), 200
+            return jsonify({"message": "Username {} already exists.".format(username)}), 201
         # calling method to create admin user
         user.register_admin(firstname, lastname, username, password)
         message = {

@@ -63,7 +63,7 @@ def post_products():
                 message = {
                     "message": "Product {} already exists.".format(product_name)
                 }
-                return jsonify(message), 200
+                return jsonify(message), 201
             # save product in database
             product.register_product(product_name, category, price, quantity, minimum_quantity)
             message = {
@@ -185,7 +185,7 @@ def update_product(product_id):
             if get_product:
                 product.edit_product(product_id, product_name, category, price, quantity, minimum_quantity)
                 message = {
-                    "message": "product edited",
+                    "message": "product updated",
                     "updated product": {
                         "product_name": product_name,
                         "category": "{}".format(category),

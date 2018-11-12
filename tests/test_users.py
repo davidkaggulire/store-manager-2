@@ -31,77 +31,77 @@ class TestUsers(TestBase):
 
     def test_create_admin_with_missing_firstname(self):
         """test method to check for firstname"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='', lastname='david', username='dave', password='password'))
         self.assertIn('firstname required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_missing_lastname(self):
         """test method to check for lastname"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='', username='dave', password='password'))
         self.assertIn('lastname required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_missing_username(self):
         """test method to check for missing name"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs', username='', password='password'))
         self.assertIn('username required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_missing_password(self):
         """test method to check for password"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs', username='dave', password=''))
         self.assertIn('password required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_numbers_name(self):
         """test method to check firstname for numbers"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david123', lastname='kaggs', username='dave', password='david'))
         self.assertIn('input should not have digits', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_alphanumeric_name(self):
         """test method to check firstname for alphanumerics"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david@@@', lastname='kaggs', username='dave', password='david'))
         self.assertIn('input should contain alphabet letters only', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_spaces_name(self):
         """test method to check firstname for spaces"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david   ', lastname='kaggs', username='dave', password='david'))
         self.assertIn('input should not have empty spaces', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_numbers_lastname(self):
         """test method to lastname for numbers"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs123', username='dave', password='david'))
         self.assertIn('input should not have digits', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_alphanumeric_lastname(self):
         """test method to test lastname for alphanumeric"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs***', username='dave', password='david'))
         self.assertIn('input should contain alphabet letters only', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_spaces_lastname(self):
         """test method to check lastname for spaces"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs  ', username='dave', password='david'))
         self.assertIn('input should not have empty spaces', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_numbers_username(self):
         """test method to check username for numbers"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs', username='dave123', password='david'))
         self.assertIn('input should not have digits', str(response.data))
         self.assertEqual(response.status_code, 400)
@@ -115,14 +115,14 @@ class TestUsers(TestBase):
 
     def test_create_admin_with_spaces_username(self):
         """test method to check username for spaces"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs', username='dave   ', password='david'))
         self.assertIn('input should not have empty spaces', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_numbers_password(self):
         """test method to check password for numbers"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs', username='dave', password='david'))
         self.assertIn('password length should be equal or greater than 6', str(response.data))
         self.assertEqual(response.status_code, 400)
@@ -136,7 +136,7 @@ class TestUsers(TestBase):
 
     def test_create_admin_with_digits_password(self):
         """test method for admin password with digits"""
-        response = self.client.post('/api/v2/auth/admin', content_type='application/json', 
+        response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs', username='dave', password='david***'))
         self.assertIn('password should contain a digit', str(response.data))
         self.assertEqual(response.status_code, 400)
@@ -147,8 +147,8 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
         token = msg['user']
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         msg = json.loads(response.data.decode())
         self.assertIn('User created successfully', msg['message'])
         self.assertEqual(response.status_code, 201)
@@ -159,8 +159,8 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
         token = msg['user']
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[0]), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[0]),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('firstname required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -170,8 +170,8 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
         token = msg['user']
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[1]), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[1]),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('lastname required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -181,8 +181,8 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
         token = msg['user']
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[2]), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[2]),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('username required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -191,9 +191,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[3]), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[3]),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('password required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -202,9 +202,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(INVALID_USER), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(INVALID_USER),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('wrong input data', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -213,9 +213,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave123', lastname='david', username='david', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave123', lastname='david', username='david', password='david123!'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should not have digits but letters', str(response.data))
         self.assertEqual(response.status_code, 400) 
     
@@ -224,9 +224,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave**', lastname='david', username='david', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave**', lastname='david', username='david', password='david123!'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should contain alphabet letters only', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -235,9 +235,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave   ', lastname='david', username='david', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave   ', lastname='david', username='david', password='david123!'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should not have empty spaces', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -246,9 +246,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david123', username='david', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david123', username='david', password='david123!'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should not have digits but letters', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -257,9 +257,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david**', username='david', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david**', username='david', password='david123!'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should contain alphabet letters only', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -268,9 +268,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david  ', username='david', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david  ', username='david', password='david123!'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should not have empty spaces', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -279,9 +279,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david123', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david123', password='david123!'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should not have digits but letters', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -290,9 +290,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david**', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david**', password='david123!'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should contain alphabet letters only', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -301,9 +301,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
+        token = msg['user']
         response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david   ', password='david123!'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('input should not have empty spaces', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -312,9 +312,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david123'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david123'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('password should contain alphanumeric characters', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -323,9 +323,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('password length should be equal or greater than 6', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -334,9 +334,9 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david***'), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', json=dict(firstname='dave', lastname='david', username='david', password='david***'),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('password should contain a digit', str(response.data))
         self.assertEqual(response.status_code, 400)
 
@@ -345,13 +345,13 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
-        token = msg['user'] 
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), headers = {'content_type': 'application/json', 
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), headers={'content_type': 'application/json', 
         'Authorization': 'Bearer ' + token['auth_token']})
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_USER))
         msg = json.loads(response.data.decode())
-        token=msg['user']
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), headers = {'content_type': 'application/json', 
+        token = msg['user']
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), headers={'content_type': 'application/json', 
         'Authorization': 'Bearer ' + token['auth_token']})
         self.assertIn('Please sign in as admin', str(response.data))
         self.assertEqual(response.status_code, 401)
@@ -362,10 +362,10 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
         token = msg['user']
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), 
-        headers = {'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER),
+        headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('Username {} already exists'.format(USER['username']), str(response.data))
         self.assertEqual(response.status_code, 201)
 
@@ -433,8 +433,8 @@ class TestUsers(TestBase):
         print(msg)
         token = msg['user']
         print(token)
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), 
-        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER),
+        headers={'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_USER))
         self.assertEqual(response.status_code, 201)
         self.assertIn('User successfully logged in', str(response.data))
@@ -445,8 +445,8 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/login', content_type='application/json', data=json.dumps(LOGIN_ADMIN))
         msg = json.loads(response.data.decode())
         token = msg['user']
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), 
-        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER),
+        headers={'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         response = self.client.post('/api/v2/auth/login', content_type='application/json', json=dict(username='david'))
         self.assertEqual(response.status_code, 400)
         self.assertIn('wrong input data', str(response.data))
@@ -459,8 +459,8 @@ class TestUsers(TestBase):
         print(msg)
         token = msg['user']
         print(token)
-        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), 
-        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER),
+        headers={'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         response = self.client.post('/api/v2/auth/login', content_type='application/json', json=dict(username='esther', password='esth123!'))
         self.assertEqual(response.status_code, 401)
         self.assertIn('Wrong username or password, try again', str(response.data))

@@ -378,6 +378,28 @@ class TestProducts(TestBase):
         self.assertEqual(response.status_code, 400)
         self.assertIn('input should not have digits but letters', str(response.json))
 
+    def test_update_product_name_has_alpha(self):
+        """test method if product name has alphanumeric"""
+        response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
+        response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_ADMIN), content_type='application/json', )
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg['user']
+        response = self.client.put('/api/v2/products/1', json=dict(product_name="pen@@@",price=30000, category="bags", quantity=10, minimum_quantity=3),
+        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})        
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('input should contain alphabet letters only', str(response.json))
+
+    def test_update_product_name_has_spaces(self):
+        """test method if product name has spaces"""
+        response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
+        response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_ADMIN), content_type='application/json', )
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg['user']
+        response = self.client.put('/api/v2/products/1', json=dict(product_name="pen   ",price=30000, category="bags", quantity=10, minimum_quantity=3),
+        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})        
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('input should not have empty spaces', str(response.json))
+
     def test_update_price_name_is_string(self):
         """test method if product name has digits"""
         response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
@@ -412,7 +434,7 @@ class TestProducts(TestBase):
         self.assertIn('input should be a number', str(response.json))
 
     def test_update_category_has_spaces(self):
-        """test method if product name has digits"""
+        """test method if product name has spaces"""
         response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
         response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_ADMIN), content_type='application/json', )
         msg = json.loads(response.data.decode("utf-8"))
@@ -421,6 +443,28 @@ class TestProducts(TestBase):
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})        
         self.assertEqual(response.status_code, 400)
         self.assertIn('input should not have empty spaces', str(response.json))
+
+    def test_update_category_has_digits(self):
+        """test method if product name has digits"""
+        response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
+        response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_ADMIN), content_type='application/json', )
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg['user']
+        response = self.client.put('/api/v2/products/1', json=dict(product_name="pen",price=30000, category="bags1234", quantity=10, minimum_quantity=3),
+        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})        
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('input should not have digits but letters', str(response.json))
+
+    def test_update_category_has_alpha(self):
+        """test method if product name has alpha"""
+        response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
+        response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_ADMIN), content_type='application/json', )
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg['user']
+        response = self.client.put('/api/v2/products/1', json=dict(product_name="pen",price=30000, category="bags***", quantity=10, minimum_quantity=3),
+        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})        
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('input should contain alphabet letters only', str(response.json))
 
     def test_update_if_admin_no_pdt_posted(self):
         """test to update if admin with no product yet"""

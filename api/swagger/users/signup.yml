@@ -1,7 +1,7 @@
 Register new user
 ---
 tags:
-  - Signup
+  - User
 consumes:
   - 'application/json'
 produces:

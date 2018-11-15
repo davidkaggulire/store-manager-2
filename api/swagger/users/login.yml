@@ -1,7 +1,7 @@
 Endpoint for signing in a user
 ---
 tags:
- - Login
+ - User
 consumes:
   - 'application/json'
 produces:

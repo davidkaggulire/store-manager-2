@@ -20,13 +20,13 @@ class TestUsers(TestBase):
         """test method to check if admin exists"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 400)
         self.assertIn('Username {} already exists'.format(ADMIN_USER['username']), str(response.data))
 
     def test_create_admin_with_missing_fields(self):
         """test method to check if a certain field is missing"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(INVALID_USER))
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 405)
         self.assertIn('wrong input data', str(response.data))
 
     def test_create_admin_with_missing_firstname(self):
@@ -206,7 +206,7 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/signup', data=json.dumps(INVALID_USER),
         headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('wrong input data', str(response.data))
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 405)
 
     def test_signup_firstname_with_digits(self):
         """test method to check firstname for digits"""
@@ -367,7 +367,7 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER),
         headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
         self.assertIn('Username {} already exists'.format(USER['username']), str(response.data))
-        self.assertEqual(response.status_code, 201)
+        self.assertEqual(response.status_code, 400)
 
     def test_login_admin_user(self):
         """test method to login admin_user"""

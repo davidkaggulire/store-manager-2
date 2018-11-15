@@ -1,0 +1,34 @@
+Endpoint for signing in a user
+---
+tags:
+ - Login
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+parameters:
+  - in: 'body'
+    name: 'body'
+    description: 'Logins user'
+    required: true
+    schema:
+      $ref: "#/definitions/login_user"
+definitions:
+  login_user:
+    type: object
+    properties:
+      username: 
+        type: string
+        example: 'dkaggs'
+      password: 
+        type: string
+        example: 'dkaggs123!'
+responses:
+  201:
+    description: User successfully logged in
+    schema:
+      $ref: '#/definitions/login_user'
+  401:
+    description: Wrong username or password
+  400:
+    description: Bad request

@@ -3,6 +3,7 @@
 import datetime
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import (jwt_required, create_access_token, get_jwt_identity)
+from flasgger import swag_from
 from api.controllers.user_controller import UserController
 from api.validators import Validators
 
@@ -11,6 +12,7 @@ userpage = Blueprint('userpage', __name__)
 
 @userpage.route('/api/v2/auth/signup', methods=['POST'])
 @jwt_required
+@swag_from('../swagger/users/signup.yml')
 def signup():
     """
     method to signup a user
@@ -49,7 +51,7 @@ def signup():
             user = UserController()
             operations = user.correct_username(username)
             if operations:
-                return jsonify({"message": "Username {} already exists. Choose another".format(username)}), 201
+                return jsonify({"message": "Username {} already exists. Choose another".format(username)}), 400
             # calling method to create user
             user.register_user(firstname, lastname, username, password)
             message = {
@@ -61,12 +63,13 @@ def signup():
             }
             return jsonify(message), 201
         except Exception:
-            return jsonify({"error": "wrong input data"}), 400
+            return jsonify({"error": "wrong input data"}), 405
     else:
         return jsonify({"message": "Please sign in as admin"}), 401
 
 
 @userpage.route('/api/v2/auth/login', methods=['POST'])
+@swag_from('../swagger/users/login.yml')
 def login():
     """route to login a user"""
     try:
@@ -107,6 +110,7 @@ def login():
 
 
 @userpage.route('/api/v2/auth/admin', methods=['POST'])
+@swag_from('../swagger/users/create_admin.yml')
 def create_admin():
     """
     method to signup a user
@@ -143,7 +147,7 @@ def create_admin():
         user = UserController()
         operations = user.correct_username(username)
         if operations:
-            return jsonify({"message": "Username {} already exists.".format(username)}), 201
+            return jsonify({"message": "Username {} already exists.".format(username)}), 400
         # calling method to create admin user
         user.register_admin(firstname, lastname, username, password)
         message = {
@@ -156,4 +160,4 @@ def create_admin():
 
         return jsonify(message), 201
     except Exception:
-        return jsonify({"error": "wrong input data"}), 400
+        return jsonify({"error": "wrong input data"}), 405

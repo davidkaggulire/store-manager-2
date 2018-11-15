@@ -1,0 +1,57 @@
+Register new user
+---
+tags:
+  - Signup
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+parameters:
+  - in: header
+    name: authorization
+    description: authorization header
+    required: true
+    type: string
+    schema:
+    id: bearer
+
+  - in: 'body'
+    name: 'body'
+    description: 'Signs up a new user'
+    required: true
+    schema:
+      $ref: "#/definitions/signup"
+securityDefinitions:
+ - JWT:
+    type: 'apiKey'
+    name: 'api_key'
+    in: "header"
+    template: "Bearer {api_key}"
+    schema: bearer
+    bearerFormat: JWT
+definitions:
+  signup:
+    type: object
+    properties:
+      firstname:
+        type: string
+        example: "david"
+      lastname:
+        type: string
+        example: "kaggulire"
+      username:
+        type: string
+        example: "dkaggs"
+      password:
+        type: string
+        example: "dkaggs123!"
+responses:
+  201:
+    description: "User created successfully"
+  401: 
+    description: "Please sign in as admin"
+  400: 
+    description: "Bad request data"
+
+
+

@@ -1,0 +1,45 @@
+End point for creating an admin user
+---
+tags:
+  - User
+consumes:
+  - application/json
+produces:
+  - application/json
+parameters:
+  - in: body
+    name: body
+    description: The details of a new admin user.
+    required: true
+    schema:
+      $ref: '#/definitions/User'
+definitions:
+  User:
+    type: object
+    properties:
+      firstname:
+        type: string
+        example: "David"
+      lastname:
+        type: string
+        example: "Kaggs"
+      username:
+        type: string
+        example: "dkaggs"
+      password:
+        type: string
+        example: "dkaggs123!"
+responses:
+  201:
+    description: User created successfully
+    schema: 
+      $ref: '#/definitions/User'
+    examples:
+      [{
+        "message": "User created successfully"
+      }]
+  400:
+    description: Bad request
+  405:
+    description: wrong input data
+ 

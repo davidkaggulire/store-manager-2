@@ -21,7 +21,7 @@ parameters:
     required: true
     schema:
       $ref: "#/definitions/signup"
-securityDefinitions:
+security:
  - JWT:
     type: 'apiKey'
     name: 'api_key'
@@ -45,6 +45,11 @@ definitions:
       password:
         type: string
         example: "dkaggs123!"
+    required:
+      - firstname
+      - lastname
+      - username
+      - password
 responses:
   201:
     description: "User created successfully"

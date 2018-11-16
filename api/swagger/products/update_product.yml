@@ -27,6 +27,14 @@ parameters:
     description: 'updating product'
     schema:
       $ref: '#/definitions/update_product'
+security:
+ - JWT:
+    type: 'apiKey'
+    name: 'api_key'
+    in: "header"
+    template: "Bearer {api_key}"
+    schema: bearer
+    bearerFormat: JWT
 definitions:
   update_product:
     type: object

@@ -1,6 +1,7 @@
 """product_views.py"""
 
 from flask import jsonify, request, make_response, Blueprint
+from flasgger import swag_from
 from api.controllers.product_controllers import ProductController
 from api.validators import Validators
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
@@ -16,6 +17,7 @@ def home():
 
 @product.route('/api/v2/products', methods=['POST'])
 @jwt_required
+@swag_from('../swagger/products/add_product.yml')
 def post_products():
     """
     method to post a product
@@ -84,6 +86,7 @@ def post_products():
 
 
 @product.route('/api/v2/products')
+@swag_from('../swagger/products/get_products.yml')
 def get_products():
     """route to return all products"""
     fetch_all = ProductController()
@@ -99,6 +102,7 @@ def get_products():
 
 
 @product.route('/api/v2/products/<int:product_id>')
+@swag_from('../swagger/products/get_single_product.yml')
 def get_product(product_id):
     """route to get single product"""
     product = ProductController()

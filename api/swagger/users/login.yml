@@ -23,6 +23,9 @@ definitions:
       password: 
         type: string
         example: 'dkaggs123!'
+    required:
+      - username
+      - password
 responses:
   201:
     description: User successfully logged in

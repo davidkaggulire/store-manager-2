@@ -19,6 +19,9 @@ You will need the following
 # Project links
 **UI link:** - The user interface are hosted on gh-pages on https://davidkaggulire.github.io/store-manager/UI/templates/index.html
 
+**Deployment:** - The backend is deployed on Heroku and can be accessed via this link.
+https://david-store-manager-heroku.herokuapp.com/apidocs/#/
+
 **API Endpoints:** The code for api endpoints can be found on https://github.com/davidkaggulire/store-manager-2/tree/develop
 
 # Project Functionality

@@ -145,6 +145,7 @@ def post_wrong_url_products():
 
 @product.route('/api/v2/products/<int:product_id>', methods=['PUT'])
 @jwt_required
+@swag_from('../swagger/products/update_product.yml')
 def update_product(product_id):
     """route to update a product """
     user_identity = get_jwt_identity()
@@ -214,6 +215,7 @@ def put_on_wrong_route():
 
 
 @product.route('/api/v2/products/<int:product_id>', methods=['DELETE'])
+@swag_from('../swagger/products/delete.yml')
 def delete(product_id):
     """route to delete product"""
     product = ProductController()

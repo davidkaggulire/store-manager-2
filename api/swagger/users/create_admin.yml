@@ -36,15 +36,9 @@ definitions:
       - password
 responses:
   201:
-    description: User created successfully
-    schema: 
-      $ref: '#/definitions/User'
-    examples:
-      [{
-        "message": "User created successfully"
-      }]
+    description: CREATED
   400:
-    description: Bad request
+    description: BAD REQUEST
   405:
-    description: wrong input data
+    description: NOT ALLOWED
  

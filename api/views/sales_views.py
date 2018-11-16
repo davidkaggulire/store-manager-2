@@ -3,6 +3,7 @@
 import datetime
 from flask import jsonify, request, Blueprint
 from flask_jwt_extended import (jwt_required, get_jwt_identity)
+from flasgger import swag_from
 from api.controllers.product_controllers import ProductController
 from api.controllers.sales_controllers import SalesController
 from api.validators import Validators
@@ -12,6 +13,7 @@ sales = Blueprint('sales', __name__)
 
 @sales.route('/api/v2/sales', methods=['POST'])
 @jwt_required
+@swag_from('../swagger/sales/create_sale.yml')
 def post_sale():
     """method to post a sale"""
 
@@ -71,6 +73,7 @@ def post_sale():
 
 @sales.route('/api/v2/sales')
 @jwt_required
+@swag_from('../swagger/sales/get_sales.yml')
 def get_all_sales():
     """route to return all sales"""
     sale = SalesController()
@@ -90,6 +93,7 @@ def get_all_sales():
 
 
 @sales.route('/api/v2/sales/<int:sale_id>')
+@swag_from('../swagger/sales/get_sale.yml')
 def get_sale(sale_id):
     """route to return a single sale"""
     sale = SalesController()

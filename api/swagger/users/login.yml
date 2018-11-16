@@ -28,10 +28,8 @@ definitions:
       - password
 responses:
   201:
-    description: User successfully logged in
-    schema:
-      $ref: '#/definitions/login_user'
+    description: CREATED
   401:
-    description: Wrong username or password
+    description: UNAUTHORIZED
   400:
-    description: Bad request
+    description: BAD REQUEST

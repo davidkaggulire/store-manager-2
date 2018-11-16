@@ -1,4 +1,4 @@
-Get products
+Delete product
 ---
 tags:
   - Product
@@ -8,11 +8,12 @@ produces:
   - 'application/json'
 parameters:
   - in: path
-    description: "get products"
-
+    name: product_id
+    description: "deletes a product"
+    type: integer
+    required: true
 responses:
   200:
     description: OK
   404:
     description: NOT FOUND
-  

@@ -14,6 +14,6 @@ parameters:
     description: Get single product
 responses:
   200:
-    description: "Product retrieved successfully"
+    description: OK
   404:
-    description: "Product not found"
+    description: NOT FOUND

@@ -52,11 +52,11 @@ definitions:
       - password
 responses:
   201:
-    description: "User created successfully"
+    description: CREATED
   401: 
-    description: "Please sign in as admin"
+    description: UNAUTHORIZED
   400: 
-    description: "Bad request data"
+    description: BAD REQUEST
 
 
 

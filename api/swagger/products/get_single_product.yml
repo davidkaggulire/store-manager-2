@@ -1,0 +1,19 @@
+Get single product
+---
+tags:
+  - Product
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+parameters:
+  - in: path
+    name: product_id
+    type: integer
+    required: true
+    description: Get single product
+responses:
+  200:
+    description: "Product retrieved successfully"
+  404:
+    description: "Product not found"

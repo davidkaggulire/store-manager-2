@@ -4,6 +4,7 @@ import os
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 from psycopg2.extras import RealDictCursor
+# from api import create_app
 
 
 class Database:
@@ -13,6 +14,10 @@ class Database:
         try:
             if os.getenv('APP_SETTING') == 'testing':
                 db_name = "testdb"
+                user = "postgres"
+                pwd = "password"
+                host = "localhost"
+                port = "5432"
             elif os.getenv('heroku') == 'database':
                 db_name = "dd38125et4t431"
                 user = "tpzzndqodqzjda"
@@ -21,7 +26,7 @@ class Database:
                 port = "5432"
 
             else:
-                db_name = "store"
+                db_name = "storemanagerapp"
                 user = "postgres"
                 pwd = "password"
                 host = "localhost"

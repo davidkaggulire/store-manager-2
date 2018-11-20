@@ -33,28 +33,28 @@ class TestUsers(TestBase):
         """test method to check for firstname"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='', lastname='david', username='dave', password='password'))
-        self.assertIn('firstname required', str(response.data))
+        self.assertIn('all fields required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_missing_lastname(self):
         """test method to check for lastname"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='', username='dave', password='password'))
-        self.assertIn('lastname required', str(response.data))
+        self.assertIn('all fields required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_missing_username(self):
         """test method to check for missing name"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs', username='', password='password'))
-        self.assertIn('username required', str(response.data))
+        self.assertIn('all fields required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_missing_password(self):
         """test method to check for password"""
         response = self.client.post('/api/v2/auth/admin', content_type='application/json',
         json=dict(firstname='david', lastname='kaggs', username='dave', password=''))
-        self.assertIn('password required', str(response.data))
+        self.assertIn('all fields required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_create_admin_with_numbers_name(self):
@@ -161,7 +161,7 @@ class TestUsers(TestBase):
         token = msg['user']
         response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[0]),
         headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
-        self.assertIn('firstname required', str(response.data))
+        self.assertIn('all fields required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_missing_field_lastname_user(self):
@@ -172,7 +172,7 @@ class TestUsers(TestBase):
         token = msg['user']
         response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[1]),
         headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
-        self.assertIn('lastname required', str(response.data))
+        self.assertIn('all fields required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_missing_field_username_user(self):
@@ -183,7 +183,7 @@ class TestUsers(TestBase):
         token = msg['user']
         response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[2]),
         headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
-        self.assertIn('username required', str(response.data))
+        self.assertIn('all fields required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_missing_field_password_user(self):
@@ -194,7 +194,7 @@ class TestUsers(TestBase):
         token = msg['user']
         response = self.client.post('/api/v2/auth/signup', data=json.dumps(USERS[3]),
         headers={'content_type': 'application/json', 'Authorization': "Bearer " + token['auth_token']})
-        self.assertIn('password required', str(response.data))
+        self.assertIn('all fields required', str(response.data))
         self.assertEqual(response.status_code, 400)
 
     def test_signup_with_missing_fields(self):
@@ -390,7 +390,7 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', json=dict(username='', password="hello"))
         msg = json.loads(response.data.decode())
-        self.assertIn('username required', msg['message'])
+        self.assertIn('username and password required', msg['message'])
         self.assertEqual(response.status_code, 400)
 
     def test_login_admin_user_empty_password(self):
@@ -398,7 +398,7 @@ class TestUsers(TestBase):
         response = self.client.post('/api/v2/auth/admin', content_type='application/json', data=json.dumps(ADMIN_USER))
         response = self.client.post('/api/v2/auth/login', content_type='application/json', json=dict(username='don', password=''))
         msg = json.loads(response.data.decode())
-        self.assertIn('password required', msg['message'])
+        self.assertIn('username and password required', msg['message'])
         self.assertEqual(response.status_code, 400)
 
     def test_login_username_has_digits(self):

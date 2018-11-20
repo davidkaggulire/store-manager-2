@@ -17,14 +17,14 @@ class Database:
                 pwd = "password"
                 host = "localhost"
                 port = "5432"
-            elif os.getenv('heroku') == 'database':
+            elif os.getenv('heroku'):
                 db_name = "dd38125et4t431"
                 user = "tpzzndqodqzjda"
                 pwd = "0f0ff18502d303dc31bc3316b54eb5afd6fb44828d274238f7846708e9ee4c75"
                 host = "ec2-54-235-156-60.compute-1.amazonaws.com"
                 port = "5432"
             else:
-                db_name = "store"
+                db_name = "storemanagerapp"
                 user = "postgres"
                 pwd = "password"
                 host = "localhost"
@@ -35,7 +35,8 @@ class Database:
             self.dict_cursor = self.conn.cursor(cursor_factory=RealDictCursor)
             print("Connected to {}".format(db_name))
 
-        except Exception:
+        except Exception as e:
+            print(e)
             print("Database connection failed")
 
     def create_user_table(self):

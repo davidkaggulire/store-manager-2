@@ -21,66 +21,64 @@ class TestDatabase(unittest.TestCase):
 
     def test_create_admin(self):
         """test to create admin"""
-        admin = self.db.create_admin('don', 'kaggulire', 'don', 'don1234!')
+        self.db.create_admin('don', 'kaggulire', 'don', 'don1234!')
         find_user = self.db.check_username('don')
         self.assertEqual(find_user['username'], 'don')
 
     def test_create_user(self):
         """test to create user"""
-        user = self.db.create_admin('david', 'kaggulire', 'dkaggs', 'dkaggs123!')
+        self.db.create_admin('david', 'kaggulire', 'dkaggs', 'dkaggs123!')
         find_user = self.db.check_username('dkaggs')
         self.assertEqual(find_user['username'], 'dkaggs')
 
     def test_create_product(self):
         """create product"""
-        product = self.db.create_product('book', 'scholastic', 1000, 2, 1)
+        self.db.create_product('book', 'scholastic', 1000, 2, 1)
         find_product = self.db.check_product_name('book')
         self.assertEqual(find_product['product_name'], 'book')
 
     def test_get_all_products(self):
         """get all products"""
-        product = self.db.create_product('book', 'scholastic', 1000, 2, 1)
-        product2 = self.db.create_product('pen', 'scholastic', 500, 2, 1)
+        self.db.create_product('book', 'scholastic', 1000, 2, 1)
+        self.db.create_product('pen', 'scholastic', 500, 2, 1)
         get_all = self.db.get_products()
         self.assertIsInstance(get_all, list)
 
     def test_get_product(self):
         """get_single_product"""
-        product = self.db.create_product('book', 'scholastic', 1000, 2, 1) 
+        self.db.create_product('book', 'scholastic', 1000, 2, 1) 
         get_one = self.db.get_single_product(1)
         self.assertIsInstance(get_one, tuple)
 
     def test_update_product(self):
         """update_product_test"""
-        product = self.db.create_product('book', 'scholastic', 1000, 2, 1)
-        update = self.db.update_product(1, 'pen', 'scholastic', 500, 1, 1)
+        self.db.create_product('book', 'scholastic', 1000, 2, 1)
+        self.db.update_product(1, 'pen', 'scholastic', 500, 1, 1)
         find_product = self.db.check_product_name('pen')
         self.assertEqual(find_product['product_name'], 'pen')
     
     def test_delete_product(self):
         """test for deleting product"""
-        product = self.db.create_product('book', 'scholastic', 1000, 2, 1)
-        get_one = self.db.get_single_product(1)
-        delete = self.db.delete_product(1)
-        find_product = self.db.check_product_name('book')
-        self.assertIs(delete, None)
+        self.db.create_product('book', 'scholastic', 1000, 2, 1)
+        self.db.get_single_product(1)
+        self.assertIs(self.db.delete_product(1), None)
 
     def test_make_sale(self):
         """test for checking a sale"""
-        sale = self.db.create_sale('book', 2, 2000, 2, 1)
+        self.db.create_sale('book', 2, 2000, 2, 1)
         get_sale = self.db.get_single_sale(1)
         self.assertEqual(get_sale[1], 'book')
 
     def test_sale_dict(self):
         """testing for getting one singlesale"""
-        sale = self.db.create_sale('book', 2, 2000, 2, 1)
+        self.db.create_sale('book', 2, 2000, 2, 1)
         get_sale = self.db.get_single_sale(1)
         self.assertIsInstance(get_sale, tuple)
 
     def test_get_many_sale(self):
         """testing for many sales"""
-        sale1 = self.db.create_sale('book', 2, 2000, 2, 1)
-        sale2 = self.db.create_sale('pen', 2, 200, 2, 1)
+        self.db.create_sale('book', 2, 2000, 2, 1)
+        self.db.create_sale('pen', 2, 200, 2, 1)
         get_all_sales = self.db.get_sales()
         self.assertIsInstance(get_all_sales, list)
 

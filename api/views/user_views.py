@@ -26,14 +26,8 @@ def signup():
             username = form_data['username']
             password = form_data['password']
 
-            if firstname == '':
-                return jsonify({"error": "firstname required"}), 400
-            if lastname == '':
-                return jsonify({"error": "lastname required"}), 400
-            if username == '':
-                return jsonify({"error": "username required"}), 400
-            if password == '':
-                return jsonify({"error": "password required"}), 400
+            if firstname == '' or lastname == '' or username == '' or password == '':
+                return jsonify({"error": "all fields required i.e. firstname, lastname, username, password"}), 400
 
             valid_first = Validators.validate_input_string(firstname)
             valid_last = Validators.validate_input_string(lastname)
@@ -77,10 +71,8 @@ def login():
         form_data = request.get_json(force=True)
         username = form_data['username']
         password = form_data['password']
-        if username == '':
-            return jsonify({'message': "username required"}), 400
-        if password == '':
-            return jsonify({'message': "password required"}), 400
+        if username == '' or password == '':
+            return jsonify({'message': "username and password required"}), 400
 
         valid_user = Validators.validate_input_string(username)
         valid_pass = Validators.validate_password(password)
@@ -113,7 +105,7 @@ def login():
 @swag_from('../swagger/users/create_admin.yml')
 def create_admin():
     """
-    method to signup a user
+    method to signup an admin user
     """
     try:
         form_data = request.get_json(force=True)
@@ -122,14 +114,8 @@ def create_admin():
         username = form_data['username']
         password = form_data['password']
 
-        if firstname == '':
-            return jsonify({"error": "firstname required"}), 400
-        if lastname == '':
-            return jsonify({"error": "lastname required"}), 400
-        if username == '':
-            return jsonify({"error": "username required"}), 400
-        if password == '':
-            return jsonify({"error": "password required"}), 400
+        if firstname == '' or lastname == '' or username == '' or password == '':
+            return jsonify({"error": "all fields required i.e. firstname, lastname, username, password"}), 400
 
         valid_first = Validators().validate_input_string(firstname)
         valid_last = Validators.validate_input_string(lastname)

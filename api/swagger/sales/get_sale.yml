@@ -1,0 +1,19 @@
+Get a sale
+---
+tags:
+  - Sales
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+parameters:
+  - in: path
+    name: sale_id
+    required: true
+    description: 'return a single sale'
+    type: integer
+responses:
+  200:
+    description: OK
+  404:
+    description: NOT FOUND

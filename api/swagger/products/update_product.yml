@@ -1,0 +1,65 @@
+Update product
+---
+tags:
+  - Product
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+parameters:
+  - in: header
+    name: authorization
+    description: authorization header
+    required: true
+    type: string
+    schema:
+      id: bearer
+
+  - in: path
+    name: product_id
+    type: integer
+    required: true
+    description: 'returning specific product'
+
+  - in: body
+    name: 'body'
+    required: true
+    description: 'updating product'
+    schema:
+      $ref: '#/definitions/update_product'
+security:
+ - JWT:
+    type: 'apiKey'
+    name: 'api_key'
+    in: "header"
+    template: "Bearer {api_key}"
+    schema: bearer
+    bearerFormat: JWT
+definitions:
+  update_product:
+    type: object
+    properties:
+      product_name:
+        type: string
+        example: 'pencil'
+      category:
+        type: string
+        example: 'scholastic'
+      price:
+        type: integer
+        format: int64
+      quantity:
+        type: integer
+        format: int64
+      minimum_quantity:
+        type: integer
+        format: int64
+responses:
+  201:
+    description: CREATED
+  400:
+    description: BAD REQUEST
+  401:
+    description: Unauthorized
+  404:
+    description: NOT FOUND

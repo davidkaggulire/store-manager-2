@@ -1,0 +1,32 @@
+Get all sales
+--- 
+tags:
+  - Sales
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+parameters:
+  - in: header
+    name: authorization
+    description: authorization header
+    required: true
+    type: string
+    schema:
+      id: bearer
+  - in: path
+    name: all_sales
+    description: 'get all sales'
+security:
+ - JWT:
+    type: 'apiKey'
+    name: 'api_key'
+    in: "header"
+    template: "Bearer {api_key}"
+    schema: bearer
+    bearerFormat: JWT
+responses:
+  200:
+    description: OK
+  401:
+    description: UNAUTHORIZED

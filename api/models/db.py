@@ -13,23 +13,23 @@ class Database:
         try:
             if os.getenv('APP_SETTING') == 'testing':
                 db_name = "testdb"
-                user = "postgres"
-                pwd = "password"
-                host = "localhost"
-                port = "5432"
-            elif os.getenv('heroku'):
-                db_name = "dd38125et4t431"
-                user = "tpzzndqodqzjda"
-                pwd = "0f0ff18502d303dc31bc3316b54eb5afd6fb44828d274238f7846708e9ee4c75"
-                host = "ec2-54-235-156-60.compute-1.amazonaws.com"
-                port = "5432"
+                # user = "postgres"
+                # pwd = "password"
+                # host = "localhost"
+                # port = "5432"
+            # elif os.getenv('heroku'):
+            #     db_name = "dd38125et4t431"
+            #     user = "tpzzndqodqzjda"
+            #     pwd = "0f0ff18502d303dc31bc3316b54eb5afd6fb44828d274238f7846708e9ee4c75"
+            #     host = "ec2-54-235-156-60.compute-1.amazonaws.com"
+            #     port = "5432"
             else:
                 db_name = "storemanagerapp"
-                user = "postgres"
-                pwd = "password"
-                host = "localhost"
-                port = "5432"
-            self.conn = psycopg2.connect(dbname=db_name, user=user, password=pwd, host=host, port=port)
+                # user = "postgres"
+                # pwd = "password"
+                # host = "localhost"
+                # port = "5432"
+            self.conn = psycopg2.connect(dbname=db_name, user="postgres", password="password", host="localhost", port="5432")
             self.conn.autocommit = True
             self.cur = self.conn.cursor()
             self.dict_cursor = self.conn.cursor(cursor_factory=RealDictCursor)

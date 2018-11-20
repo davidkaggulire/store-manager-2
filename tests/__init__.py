@@ -76,6 +76,12 @@ PRODUCT_LIST=[
         "category": "scholastic",
         "price": 500,
         "quantity": 10
+    },
+    {
+      "product_name": "pencil",
+        "category": "scholastic",
+        "price": 200,
+        "quantity": 0  
     }
 ]
 

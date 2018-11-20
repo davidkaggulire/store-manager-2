@@ -267,3 +267,41 @@ class TestSale(TestBase):
         response = self.client.get('/api/v2/sales/', content_type='application/json')
         self.assertEqual(response.status_code, 400)
         self.assertIn('Unallowed route', str(response.data))
+
+    def test_check_store_product(self):
+        """test method to check if store has products"""
+        response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
+        response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_ADMIN), content_type='application/json', )
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg['user']
+        self.client.post('/api/v2/products', data=json.dumps(PRODUCT_LIST[2]), headers={'content_type': 'application/json', 
+        'Authorization': 'Bearer ' + token['auth_token']})
+        self.client.get('/api/v2/products/1')
+        response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
+        response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_USER), content_type='application/json')
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg["user"]
+        response = self.client.post('/api/v2/sales', json=dict(product_id=1, quantity=20),
+        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Product out of stock', str(response.data))
+
+    def test_check_store_quantity_product(self):
+        """test method to check if store_quantity is greater than sold quantity"""
+        response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
+        response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_ADMIN), content_type='application/json', )
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg['user']
+        self.client.post('/api/v2/products', data=json.dumps(PRODUCT_LIST[0]), headers={'content_type': 'application/json', 
+        'Authorization': 'Bearer ' + token['auth_token']})
+        self.client.get('/api/v2/products/1')
+        response = self.client.post('/api/v2/auth/admin', data=json.dumps(ADMIN_USER), content_type='application/json')
+        response = self.client.post('/api/v2/auth/signup', data=json.dumps(USER), headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
+        response = self.client.post('/api/v2/auth/login', data=json.dumps(LOGIN_USER), content_type='application/json')
+        msg = json.loads(response.data.decode("utf-8"))
+        token = msg["user"]
+        response = self.client.post('/api/v2/sales', json=dict(product_id=1, quantity=20),
+        headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
+        self.assertEqual(response.status_code, 400)
+        self.assertIn('Quantity greater than store quantity', str(response.data)) 

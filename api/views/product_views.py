@@ -2,9 +2,10 @@
 
 from flask import jsonify, request, make_response, Blueprint
 from flasgger import swag_from
+from flask_jwt_extended import (jwt_required, get_jwt_identity)
 from api.controllers.product_controllers import ProductController
 from api.validators import Validators
-from flask_jwt_extended import (jwt_required, get_jwt_identity)
+
 
 product = Blueprint('product', __name__)
 
@@ -109,8 +110,7 @@ def get_product(product_id):
             }
         }
         return jsonify(message), 200
-    else:
-        return jsonify({"message": "Product not found"}), 404
+    return jsonify({"message": "Product not found"}), 404
 
 
 @product.route('/api/v2/products/')

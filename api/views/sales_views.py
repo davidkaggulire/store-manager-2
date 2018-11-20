@@ -40,11 +40,11 @@ def post_sale():
 
             if check_product:
                 db_quantity = int(check_product[4])
-                if quantity > db_quantity:
-                    return jsonify({"message": "Quantity greater than stock"})
                 if db_quantity == 0:
-                    return jsonify({"message": "Product out of stock"})
-
+                    return jsonify({"message": "Product out of stock"}), 400
+                if quantity > db_quantity:
+                    return jsonify({"message": "Quantity greater than store quantity"}), 400
+                
                 balance_quantity = db_quantity - quantity
                 total = check_product[3] * quantity
                 product_name = check_product[1]

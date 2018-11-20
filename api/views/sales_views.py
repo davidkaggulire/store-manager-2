@@ -24,10 +24,8 @@ def post_sale():
             product_id = form_data['product_id']
             quantity = form_data['quantity']
 
-            if product_id == "":
-                return jsonify({"error": "product id missing"}), 400
-            if quantity == "":
-                return jsonify({"error": "quantity missing"}), 400
+            if product_id == "" or quantity == "":
+                return jsonify({"error": "product id or quantity missing"}), 400
 
             valid_product_id = Validators.validate_input_number(product_id)
             if valid_product_id:

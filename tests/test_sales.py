@@ -23,7 +23,7 @@ class TestSale(TestBase):
         response = self.client.post('/api/v2/sales', json=dict(product_id="", quantity=3),
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('product id missing', str(response.data))
+        self.assertIn('product id or quantity missing', str(response.data))
     
     def test_post_sale_with_quantity(self):
         """test method to check for empty quantity"""
@@ -41,7 +41,7 @@ class TestSale(TestBase):
         response = self.client.post('/api/v2/sales', json=dict(product_id=1, quantity=""),
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('quantity missing', str(response.data))
+        self.assertIn('product id or quantity missing', str(response.data))
 
     def test_sale_when_product_id_has_letters(self):
         """test method to check for empty quantity"""

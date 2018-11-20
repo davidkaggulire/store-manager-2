@@ -4,7 +4,6 @@ import os
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 from psycopg2.extras import RealDictCursor
-# from api import create_app
 
 
 class Database:
@@ -18,7 +17,7 @@ class Database:
                 pwd = "password"
                 host = "localhost"
                 port = "5432"
-            elif os.getenv('heroku') == 'database':
+            elif os.getenv('heroku'):
                 db_name = "dd38125et4t431"
                 user = "tpzzndqodqzjda"
                 pwd = "0f0ff18502d303dc31bc3316b54eb5afd6fb44828d274238f7846708e9ee4c75"
@@ -37,7 +36,8 @@ class Database:
             self.dict_cursor = self.conn.cursor(cursor_factory=RealDictCursor)
             print("Connected to {}".format(db_name))
 
-        except Exception:
+        except Exception as e:
+            print(e)
             print("Database connection failed")
 
     def create_user_table(self):

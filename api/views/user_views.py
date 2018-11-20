@@ -26,14 +26,8 @@ def signup():
             username = form_data['username']
             password = form_data['password']
 
-            if firstname == '':
-                return jsonify({"error": "firstname required"}), 400
-            if lastname == '':
-                return jsonify({"error": "lastname required"}), 400
-            if username == '':
-                return jsonify({"error": "username required"}), 400
-            if password == '':
-                return jsonify({"error": "password required"}), 400
+            if firstname == '' or lastname == '' or username == '' or password == '':
+                return jsonify({"error": "all fields required i.e. firstname, lastname, username, password"}), 400
 
             valid_first = Validators.validate_input_string(firstname)
             valid_last = Validators.validate_input_string(lastname)
@@ -77,10 +71,8 @@ def login():
         form_data = request.get_json(force=True)
         username = form_data['username']
         password = form_data['password']
-        if username == '':
-            return jsonify({'message': "username required"}), 400
-        if password == '':
-            return jsonify({'message': "password required"}), 400
+        if username == '' or password == '':
+            return jsonify({'message': "username and password required"}), 400
 
         valid_user = Validators.validate_input_string(username)
         valid_pass = Validators.validate_password(password)
@@ -113,51 +105,45 @@ def login():
 @swag_from('../swagger/users/create_admin.yml')
 def create_admin():
     """
-    method to signup a user
+    method to signup an admin user
     """
-    # try:
-    form_data = request.get_json(force=True)
-    firstname = form_data['firstname']
-    lastname = form_data['lastname']
-    username = form_data['username']
-    password = form_data['password']
+    try:
+        form_data = request.get_json(force=True)
+        firstname = form_data['firstname']
+        lastname = form_data['lastname']
+        username = form_data['username']
+        password = form_data['password']
 
-    if firstname == '':
-        return jsonify({"error": "firstname required"}), 400
-    if lastname == '':
-        return jsonify({"error": "lastname required"}), 400
-    if username == '':
-        return jsonify({"error": "username required"}), 400
-    if password == '':
-        return jsonify({"error": "password required"}), 400
+        if firstname == '' or lastname == '' or username == '' or password == '':
+            return jsonify({"error": "all fields required i.e. firstname, lastname, username, password"}), 400
 
-    valid_first = Validators().validate_input_string(firstname)
-    valid_last = Validators.validate_input_string(lastname)
-    valid_username = Validators.validate_input_string(username)
-    valid_password = Validators.validate_password(password)
-    if valid_first:
-        return valid_first
-    if valid_last:
-            return valid_last
-    if valid_username:
-        return valid_username
-    if valid_password:
-        return valid_password
+        valid_first = Validators().validate_input_string(firstname)
+        valid_last = Validators.validate_input_string(lastname)
+        valid_username = Validators.validate_input_string(username)
+        valid_password = Validators.validate_password(password)
+        if valid_first:
+            return valid_first
+        if valid_last:
+                return valid_last
+        if valid_username:
+            return valid_username
+        if valid_password:
+            return valid_password
 
-    user = UserController()
-    operations = user.correct_username(username)
-    if operations:
-        return jsonify({"message": "Username {} already exists.".format(username)}), 400
-    # calling method to create admin user
-    user.register_admin(firstname, lastname, username, password)
-    message = {
-        "message": "User created successfully",
-        "user": {
-            "username": "{}".format(username),
-            "first name": "{}".format(firstname)
+        user = UserController()
+        operations = user.correct_username(username)
+        if operations:
+            return jsonify({"message": "Username {} already exists.".format(username)}), 400
+        # calling method to create admin user
+        user.register_admin(firstname, lastname, username, password)
+        message = {
+            "message": "User created successfully",
+            "user": {
+                "username": "{}".format(username),
+                "first name": "{}".format(firstname)
+            }
         }
-    }
 
-    return jsonify(message), 201
-    # except Exception:
-    #     return jsonify({"error": "wrong input data"}), 405
+        return jsonify(message), 201
+    except Exception:
+        return jsonify({"error": "wrong input data"}), 405

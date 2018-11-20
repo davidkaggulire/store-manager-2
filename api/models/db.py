@@ -112,12 +112,12 @@ class Database:
             check = check_password_hash(d[0], password)
             return check
 
-    def create_product(self, product_name, category, price, quantity, minimum_quantity):
+    def create_product(self, product_name, category, price, quantity):
         """
         method to create products
         """
         self.cur.execute("INSERT INTO products(product_name, category, price, quantity, minimum_quantity) VALUES(\
-        %s, %s, %s, %s, %s)", (product_name, category, price, quantity, minimum_quantity,))
+        %s, %s, %s, %s, %s)", (product_name, category, price, quantity, 5, ))
 
     def get_products(self):
         """
@@ -133,12 +133,11 @@ class Database:
         self.cur.execute("SELECT * FROM products WHERE product_id=%s", (product_id,))
         return self.cur.fetchone()
 
-    def update_product(self, product_id, product_name, category, price, quantity, minimum_quantity):
+    def update_product(self, product_id, product_name, category, price, quantity):
         """
         method to update a single product
         """
-        self.dict_cursor.execute("UPDATE products SET product_name=%s, category=%s, price=%s, quantity=%s,\
-        minimum_quantity=%s WHERE product_id=%s", (product_name, category, price, quantity, minimum_quantity, product_id,))
+        self.dict_cursor.execute("UPDATE products SET product_name=%s, category=%s, price=%s, quantity=%s WHERE product_id=%s", (product_name, category, price, quantity, product_id,))
 
     def update_on_sale(self, product_id, quantity):
         """

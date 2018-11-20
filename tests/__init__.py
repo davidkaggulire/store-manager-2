@@ -61,8 +61,7 @@ PRODUCT = {
 	"product_name": "book",
 	"category": "scholastic",
 	"price": 5000,
-	"quantity": 10,
-	"minimum_quantity": 2
+	"quantity": 10
 }
 
 PRODUCT_LIST=[
@@ -70,15 +69,13 @@ PRODUCT_LIST=[
         "product_name": "book",
         "category": "scholastic",
         "price": 5000,
-        "quantity": 10,
-        "minimum_quantity": 2
+        "quantity": 10
     },
     {
         "product_name": "pen",
         "category": "scholastic",
         "price": 500,
-        "quantity": 10,
-        "minimum_quantity": 2
+        "quantity": 10
     }
 ]
 
@@ -86,8 +83,7 @@ EMPTY_PRODUCT = {
     "product_name": "",
 	"category": "",
 	"price": "",
-	"quantity": "",
-	"minimum_quantity": ""
+	"quantity": ""
 }
 
 SALE = {

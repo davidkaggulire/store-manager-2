@@ -30,16 +30,15 @@ def post_products():
             category = form_data['category']
             price = form_data['price']
             quantity = form_data['quantity']
-            minimum_quantity = form_data['minimum_quantity']
 
-            if product_name == "" or category == "" or price == "" or quantity == "" or minimum_quantity == '':
-                return jsonify({"error": "all fields required i.e. name, category, price, qty, min qty"}), 400
+            if product_name == "" or category == "" or price == "" or quantity == "":
+                return jsonify({"error": "all fields required i.e. name, category, price, qty"}), 400
 
             valid_name = Validators.validate_input_string(product_name)
             valid_category = Validators.validate_input_string(category)
             valid_price = Validators.validate_input_number(price)
             valid_quantity = Validators.validate_input_number(quantity)
-            valid_minimum = Validators.validate_input_number(minimum_quantity)
+
             if valid_name:
                 return valid_name
             if valid_category:
@@ -48,8 +47,6 @@ def post_products():
                 return valid_price
             if valid_quantity:
                 return valid_quantity
-            if valid_minimum:
-                return valid_minimum
 
             product = ProductController()
             product_in_store = product.check_product_name(product_name)
@@ -59,15 +56,14 @@ def post_products():
                 }
                 return jsonify(message), 201
             # save product in database
-            product.register_product(product_name, category, price, quantity, minimum_quantity)
+            product.register_product(product_name, category, price, quantity)
             message = {
                 "message": "Product created successfully",
                 "product": {
                     "product_name": product_name,
                     "category": category,
                     "price": price,
-                    "quantity": quantity,
-                    "minimum_quantity": minimum_quantity,
+                    "quantity": quantity
                 }
             }
             return jsonify(message), 201
@@ -148,16 +144,14 @@ def update_product(product_id):
             category = form_data['category']
             price = form_data['price']
             quantity = form_data['quantity']
-            minimum_quantity = form_data['minimum_quantity']
 
-            if product_name == "" or category == "" or price == "" or quantity == "" or minimum_quantity == '':
-                return jsonify({"error": "all fields required i.e. name, category, price, qty, min qty"}), 400
+            if product_name == "" or category == "" or price == "" or quantity == "":
+                return jsonify({"error": "all fields required i.e. name, category, price, qty"}), 400
 
             valid_name = Validators.validate_input_string(product_name)
             valid_category = Validators.validate_input_string(category)
             valid_price = Validators.validate_input_number(price)
             valid_quantity = Validators.validate_input_number(quantity)
-            valid_minimum = Validators.validate_input_number(minimum_quantity)
             if valid_name:
                 return valid_name
             if valid_category:
@@ -166,21 +160,18 @@ def update_product(product_id):
                 return valid_price
             if valid_quantity:
                 return valid_quantity
-            if valid_minimum:
-                return valid_minimum
 
             product = ProductController()
             get_product = product.get_single_product(product_id)
             if get_product:
-                product.edit_product(product_id, product_name, category, price, quantity, minimum_quantity)
+                product.edit_product(product_id, product_name, category, price, quantity)
                 message = {
                     "message": "product updated",
                     "updated product": {
                         "product_name": product_name,
                         "category": "{}".format(category),
                         "price": "{}".format(price),
-                        "quantity": "{}".format(quantity),
-                        "minimum_quantity": "{}".format(minimum_quantity),
+                        "quantity": "{}".format(quantity)
                     }
                 }
                 return jsonify(message), 201

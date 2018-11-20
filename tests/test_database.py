@@ -33,33 +33,33 @@ class TestDatabase(unittest.TestCase):
 
     def test_create_product(self):
         """create product"""
-        self.db.create_product('book', 'scholastic', 1000, 2, 1)
+        self.db.create_product('book', 'scholastic', 1000, 2)
         find_product = self.db.check_product_name('book')
         self.assertEqual(find_product['product_name'], 'book')
 
     def test_get_all_products(self):
         """get all products"""
-        self.db.create_product('book', 'scholastic', 1000, 2, 1)
-        self.db.create_product('pen', 'scholastic', 500, 2, 1)
+        self.db.create_product('book', 'scholastic', 1000, 2)
+        self.db.create_product('pen', 'scholastic', 500, 2)
         get_all = self.db.get_products()
         self.assertIsInstance(get_all, list)
 
     def test_get_product(self):
         """get_single_product"""
-        self.db.create_product('book', 'scholastic', 1000, 2, 1) 
+        self.db.create_product('book', 'scholastic', 1000, 2) 
         get_one = self.db.get_single_product(1)
         self.assertIsInstance(get_one, tuple)
 
     def test_update_product(self):
         """update_product_test"""
-        self.db.create_product('book', 'scholastic', 1000, 2, 1)
-        self.db.update_product(1, 'pen', 'scholastic', 500, 1, 1)
+        self.db.create_product('book', 'scholastic', 1000, 2)
+        self.db.update_product(1, 'pen', 'scholastic', 500, 1)
         find_product = self.db.check_product_name('pen')
         self.assertEqual(find_product['product_name'], 'pen')
     
     def test_delete_product(self):
         """test for deleting product"""
-        self.db.create_product('book', 'scholastic', 1000, 2, 1)
+        self.db.create_product('book', 'scholastic', 1000, 2)
         self.db.get_single_product(1)
         self.assertIs(self.db.delete_product(1), None)
 

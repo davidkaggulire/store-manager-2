@@ -10,12 +10,12 @@ class ProductController:
         """initialize connection to db"""
         self.db_con = Database()
 
-    def register_product(self, product_name, category, price, quantity, minimum_quantity):
+    def register_product(self, product_name, category, price, quantity):
         """
         method to register products
         """
-        new_product = Products(product_name, category, price, quantity, minimum_quantity)
-        self.db_con.create_product(product_name=new_product.product_name, category=new_product.category, price=new_product.price, quantity=new_product.quantity, minimum_quantity=new_product.minimum_quantity)
+        new_product = Products(product_name, category, price, quantity)
+        self.db_con.create_product(product_name=new_product.product_name, category=new_product.category, price=new_product.price, quantity=new_product.quantity)
 
     def get_products(self):
         """
@@ -29,11 +29,11 @@ class ProductController:
         """
         return self.db_con.get_single_product(product_id)
 
-    def edit_product(self, product_id, product_name, category, price, quantity, minimum_quantity):
+    def edit_product(self, product_id, product_name, category, price, quantity):
         """
         method to update a single product
         """
-        self.db_con.update_product(product_id, product_name, category, price, quantity, minimum_quantity)
+        self.db_con.update_product(product_id, product_name, category, price, quantity)
 
     def check_product_name(self, product_name):
         """

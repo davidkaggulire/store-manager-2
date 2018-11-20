@@ -1,13 +1,11 @@
 """products.py"""
 
-import datetime
-
 
 class Products:
     """
     creates a product
     """
-    def __init__(self, product_name, category, price, quantity, minimum_quantity):
+    def __init__(self, product_name, category, price, quantity):
         """
         initializing attributes for class
         """
@@ -15,5 +13,3 @@ class Products:
         self.category = category
         self.price = price
         self.quantity = quantity
-        self.minimum_quantity = minimum_quantity
-        self.date_added = datetime.datetime.now()

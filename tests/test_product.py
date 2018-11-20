@@ -108,7 +108,7 @@ class TestProducts(TestBase):
         response = self.client.post('/api/v2/products', data=json.dumps(EMPTY_PRODUCT), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Product name missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_post_empty_product_category(self):
         """test method to check for empty fields"""
@@ -119,7 +119,7 @@ class TestProducts(TestBase):
         response = self.client.post('/api/v2/products', json=dict(product_name='book', category="", price="", quantity="", minimum_quantity=""), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Category missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_post_empty_product_price(self):
         """test method to check for empty fields"""
@@ -130,7 +130,7 @@ class TestProducts(TestBase):
         response = self.client.post('/api/v2/products', json=dict(product_name='book', category="scholar", price="", quantity=3, minimum_quantity=6), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('price missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_post_empty_product_quantity(self):
         """test method to check for empty fields"""
@@ -141,7 +141,7 @@ class TestProducts(TestBase):
         response = self.client.post('/api/v2/products', json=dict(product_name='book', category="scholar", price=1000, quantity="", minimum_quantity=6), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Quantity missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_post_empty_product_minimum_quantity(self):
         """test method to check for empty fields"""
@@ -152,7 +152,7 @@ class TestProducts(TestBase):
         response = self.client.post('/api/v2/products', json=dict(product_name='book', category="scholar", price=1000, quantity=3, minimum_quantity=""), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Minimum Quantity missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_post_product_name_has_digit(self):
         """test method if product name has digits"""
@@ -321,7 +321,7 @@ class TestProducts(TestBase):
         response = self.client.put('/api/v2/products/1', data=json.dumps(EMPTY_PRODUCT), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Product name missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_update_empty_product_category(self):
         """test method to check for empty fields"""
@@ -332,7 +332,7 @@ class TestProducts(TestBase):
         response = self.client.put('/api/v2/products/1', json=dict(product_name='book', category="", price="", quantity="", minimum_quantity=""), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Category missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_update_empty_product_price(self):
         """test method to check for empty fields"""
@@ -343,7 +343,7 @@ class TestProducts(TestBase):
         response = self.client.put('/api/v2/products/2', json=dict(product_name='book', category="scholar", price="", quantity=3, minimum_quantity=6), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('price missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_update_empty_product_quantity(self):
         """test method to check for empty fields"""
@@ -354,7 +354,7 @@ class TestProducts(TestBase):
         response = self.client.put('/api/v2/products/1', json=dict(product_name='book', category="scholar", price=1000, quantity="", minimum_quantity=6), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Quantity missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_update_empty_product_minimum_quantity(self):
         """test method to check for empty fields"""
@@ -365,7 +365,7 @@ class TestProducts(TestBase):
         response = self.client.put('/api/v2/products/1', json=dict(product_name='book', category="scholar", price=1000, quantity=3, minimum_quantity=""), 
         headers = {'content_type': 'application/json', 'Authorization': 'Bearer ' + token['auth_token']})
         self.assertEqual(response.status_code, 400)
-        self.assertIn('Minimum Quantity missing', str(response.json))
+        self.assertIn('all fields required', str(response.json))
 
     def test_update_product_name_has_digit(self):
         """test method if product name has digits"""

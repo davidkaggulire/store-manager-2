@@ -32,16 +32,8 @@ def post_products():
             quantity = form_data['quantity']
             minimum_quantity = form_data['minimum_quantity']
 
-            if product_name == "":
-                return jsonify({"error": "Product name missing"}), 400
-            if category == "":
-                return jsonify({"error": "Category missing"}), 400
-            if price == "":
-                return jsonify({"error": "price missing"}), 400
-            if quantity == "":
-                return jsonify({"error": " Quantity missing"}), 400
-            if minimum_quantity == "":
-                return jsonify({"error": "Minimum Quantity missing"}), 400
+            if product_name == "" or category == "" or price == "" or quantity == "" or minimum_quantity == '':
+                return jsonify({"error": "all fields required i.e. name, category, price, qty, min qty"}), 400
 
             valid_name = Validators.validate_input_string(product_name)
             valid_category = Validators.validate_input_string(category)
@@ -158,16 +150,8 @@ def update_product(product_id):
             quantity = form_data['quantity']
             minimum_quantity = form_data['minimum_quantity']
 
-            if product_name == "":
-                return jsonify({"error": "Product name missing"}), 400
-            if category == "":
-                return jsonify({"error": "Category missing"}), 400
-            if price == "":
-                return jsonify({"error": "price missing"}), 400
-            if quantity == "":
-                return jsonify({"error": " Quantity missing"}), 400
-            if minimum_quantity == "":
-                return jsonify({"error": "Minimum Quantity missing"}), 400
+            if product_name == "" or category == "" or price == "" or quantity == "" or minimum_quantity == '':
+                return jsonify({"error": "all fields required i.e. name, category, price, qty, min qty"}), 400
 
             valid_name = Validators.validate_input_string(product_name)
             valid_category = Validators.validate_input_string(category)

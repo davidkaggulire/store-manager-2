@@ -24,7 +24,7 @@ class Database:
             #     host = "ec2-54-235-156-60.compute-1.amazonaws.com"
             #     port = "5432"
             else:
-                db_name = "storemanagerapp"
+                db_name = "store"
                 # user = "postgres"
                 # pwd = "password"
                 # host = "localhost"

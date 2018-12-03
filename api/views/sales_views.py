@@ -102,11 +102,11 @@ def get_sale(sale_id):
             "sale": {
                 "sale_id": single_sale[0],
                 "product_name": single_sale[1],
-                "price": single_sale[2],
-                "quantity": single_sale[3],
-                "date": single_sale[4],
-                "user_id": single_sale[5],
-                "product_id": single_sale[6]
+                "quantity": single_sale[2],
+                "total": single_sale[3],
+                "attendant_id": single_sale[4],
+                "product_id": single_sale[5],
+                "date": single_sale[6]
             }
         }
         return jsonify(message), 200

@@ -97,7 +97,7 @@ def login():
             return jsonify(message), 201
         else:
             return jsonify({"message": "Wrong username or password, try again"}), 401
-    except Exception:
+    except KeyError:
         return jsonify({"error": "wrong input data"}), 400
 
 
@@ -145,5 +145,5 @@ def create_admin():
         }
 
         return jsonify(message), 201
-    except Exception:
+    except KeyError:
         return jsonify({"error": "wrong input data"}), 405

@@ -63,7 +63,7 @@ def post_sale():
                 }
                 return jsonify(message), 201
             return jsonify({"message": "Product not found"}), 404
-        except Exception:
+        except KeyError:
             return jsonify({"error": "Wrong input data"}), 400
     else:
         return jsonify({"message": "Please sign in as attendant"}), 401

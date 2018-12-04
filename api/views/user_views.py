@@ -56,7 +56,7 @@ def signup():
                 }
             }
             return jsonify(message), 201
-        except Exception:
+        except KeyError:
             return jsonify({"error": "wrong input data"}), 405
     else:
         return jsonify({"message": "Please sign in as admin"}), 401
@@ -143,7 +143,6 @@ def create_admin():
                 "first name": "{}".format(firstname)
             }
         }
-
         return jsonify(message), 201
     except KeyError:
         return jsonify({"error": "wrong input data"}), 405

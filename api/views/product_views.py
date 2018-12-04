@@ -68,7 +68,7 @@ def post_products():
                 }
             }
             return jsonify(message), 201
-        except Exception:
+        except KeyError:
             return jsonify({'error': 'Please input right data format'}), 400
     else:
         return jsonify({"message": "Please sign in as admin"}), 401
@@ -177,7 +177,7 @@ def update_product(product_id):
                 return jsonify(message), 201
             else:
                 return jsonify({"message": "Product not found"}), 404
-        except Exception:
+        except KeyError:
             return jsonify({"error": "Wrong data format"}), 400
     else:
         return jsonify({"message": "Please sign in as admin"}), 401

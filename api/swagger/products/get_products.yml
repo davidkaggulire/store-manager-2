@@ -1,0 +1,18 @@
+Get products
+---
+tags:
+  - Product
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+parameters:
+  - in: path
+    description: "get products"
+
+responses:
+  200:
+    description: OK
+  404:
+    description: NOT FOUND
+  

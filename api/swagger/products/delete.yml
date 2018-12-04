@@ -1,0 +1,19 @@
+Delete product
+---
+tags:
+  - Product
+consumes:
+  - 'application/json'
+produces:
+  - 'application/json'
+parameters:
+  - in: path
+    name: product_id
+    description: "deletes a product"
+    type: integer
+    required: true
+responses:
+  200:
+    description: OK
+  404:
+    description: NOT FOUND

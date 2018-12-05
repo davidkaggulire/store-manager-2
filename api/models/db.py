@@ -11,19 +11,21 @@ class Database:
     def __init__(self):
         """connect to the database"""
         try:
-            if os.getenv('APP_SETTING') == app_config['testing']:
+            if os.getenv('APP_SETTING') == 'testing':
                 db_name = "testdb"
                 user = "postgres"
                 pwd = "password"
                 host = "localhost"
                 port = "5432"
+
             elif app_config['production']:
                 db_name = "dd38125et4t431"
                 user = "tpzzndqodqzjda"
                 pwd = "0f0ff18502d303dc31bc3316b54eb5afd6fb44828d274238f7846708e9ee4c75"
                 host = "ec2-54-235-156-60.compute-1.amazonaws.com"
                 port = "5432"
-            else:
+                
+            elif app_config['development'] == 'development': 
                 db_name = "storemanagerapp"
                 user = "postgres"
                 pwd = "password"

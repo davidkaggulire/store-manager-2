@@ -22,6 +22,12 @@ You will need the following
 **Deployment:** - The backend is deployed on Heroku and can be accessed via this link.
 https://david-store-manager-heroku.herokuapp.com/apidocs/#/
 
+-local deployment is via  http://localhost:5000/api/docs/#/ 
+
+```Change the app environment to development to deploy locally for this to work. Currently app environment is configured to production.```
+
+
+
 **API Endpoints:** The code for api endpoints can be found on https://github.com/davidkaggulire/store-manager-2/tree/develop
 
 # Project Functionality

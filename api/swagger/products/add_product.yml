@@ -44,9 +44,7 @@ definitions:
       quantity:
         type: "integer"
         format: "int64"
-      minimum_quantity:
-        type: "integer"
-        format: "int64"
+
 responses:
   201: 
     description: CREATED

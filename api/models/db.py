@@ -4,32 +4,32 @@ import os
 import psycopg2
 from werkzeug.security import generate_password_hash, check_password_hash
 from psycopg2.extras import RealDictCursor
-
+from config import app_config
 
 class Database:
     """class to define databases for storemanager"""
     def __init__(self):
         """connect to the database"""
         try:
-            if os.getenv('APP_SETTING') == 'testing':
+            if os.getenv('APP_SETTING') == app_config['testing']:
                 db_name = "testdb"
-                # user = "postgres"
-                # pwd = "password"
-                # host = "localhost"
-                # port = "5432"
-            # elif os.getenv('heroku'):
-            #     db_name = "dd38125et4t431"
-            #     user = "tpzzndqodqzjda"
-            #     pwd = "0f0ff18502d303dc31bc3316b54eb5afd6fb44828d274238f7846708e9ee4c75"
-            #     host = "ec2-54-235-156-60.compute-1.amazonaws.com"
-            #     port = "5432"
+                user = "postgres"
+                pwd = "password"
+                host = "localhost"
+                port = "5432"
+            elif app_config['production']:
+                db_name = "dd38125et4t431"
+                user = "tpzzndqodqzjda"
+                pwd = "0f0ff18502d303dc31bc3316b54eb5afd6fb44828d274238f7846708e9ee4c75"
+                host = "ec2-54-235-156-60.compute-1.amazonaws.com"
+                port = "5432"
             else:
-                db_name = "store"
-                # user = "postgres"
-                # pwd = "password"
-                # host = "localhost"
-                # port = "5432"
-            self.conn = psycopg2.connect(dbname=db_name, user="postgres", password="password", host="localhost", port="5432")
+                db_name = "storemanagerapp"
+                user = "postgres"
+                pwd = "password"
+                host = "localhost"
+                port = "5432"
+            self.conn = psycopg2.connect(dbname=db_name, user=user, password=pwd, host=host, port=port)
             self.conn.autocommit = True
             self.cur = self.conn.cursor()
             self.dict_cursor = self.conn.cursor(cursor_factory=RealDictCursor)
